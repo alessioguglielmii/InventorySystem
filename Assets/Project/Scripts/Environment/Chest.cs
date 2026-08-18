@@ -3,6 +3,7 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     [SerializeField] private int m_endurance;
+    [SerializeField] private GameObject m_breakEffect;
     [SerializeField] private ItemPickup m_inventoryItem;
 
     public void DamageChest(int _hitPower)
@@ -11,11 +12,19 @@ public class Chest : MonoBehaviour
 
         if (m_endurance <= 0)
         {
+
+            if(m_breakEffect != null)
+            {
+                Instantiate(m_breakEffect, transform.position, transform.rotation);
+            }
+
             if (m_inventoryItem != null)
             {
-                Vector3 _itemPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f, gameObject.transform.position.z);
+                Vector3 _itemPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.75f, gameObject.transform.position.z);
 
-                Instantiate(m_inventoryItem.gameObject, _itemPosition, Quaternion.identity);
+                GameObject inventoryItem = Instantiate(m_inventoryItem.gameObject);
+                inventoryItem.transform.position = _itemPosition;
+
             }
 
             gameObject.SetActive(false);

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GateKey
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   m_stringItemName: Gate Key
-  m_spriteIcon: {fileID: 0}
+  m_spriteIcon: {fileID: 21300000, guid: c80399cdc1f7d0d41ac3bc00714a21b3, type: 3}
   m_nMaxStackSize: 1

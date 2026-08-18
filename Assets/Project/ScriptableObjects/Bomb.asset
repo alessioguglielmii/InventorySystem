@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Bomb
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   m_stringItemName: Bomb
-  m_spriteIcon: {fileID: 0}
+  m_spriteIcon: {fileID: 21300000, guid: 6d762a24365b68e47843a96944d1b12a, type: 3}
   m_nMaxStackSize: 5
