@@ -44,12 +44,12 @@ public class CharacterCamera : MonoBehaviour
         transform.position = GetWantedPosition();
     }
 
-    private void OnLookPerformed(InputAction.CallbackContext p_Context)
+    private void OnLookPerformed(InputAction.CallbackContext context)
     {
-        _mouseLook = p_Context.ReadValue<Vector2>();
+        _mouseLook = context.ReadValue<Vector2>();
     }
 
-    private void OnLookCanceled(InputAction.CallbackContext p_Context)
+    private void OnLookCanceled(InputAction.CallbackContext context)
     {
         _mouseLook = Vector2.zero;
     }

@@ -21,6 +21,11 @@ public class CharacterMovement : MonoBehaviour
 
     private Vector2 _moveInput;
 
+    private bool _attackOpen;
+    private bool _canPickUp;
+    private ItemPickup _itemPickUp;
+
+    public bool AttackOpen => _attackOpen;
 
     private void Start()
     {
@@ -30,6 +35,7 @@ public class CharacterMovement : MonoBehaviour
         PlayerInputSingleton.Instance.Actions["Sprint"].started += OnSprintStart;
         PlayerInputSingleton.Instance.Actions["Sprint"].canceled += OnSprintEnd;
         PlayerInputSingleton.Instance.Actions["Attack"].performed += OnAttackInput;
+        PlayerInputSingleton.Instance.Actions["PickUp"].performed += OnPickUpInput;
     }
 
     private void OnDestroy()
@@ -39,6 +45,7 @@ public class CharacterMovement : MonoBehaviour
         PlayerInputSingleton.Instance.Actions["Sprint"].started -= OnSprintStart;
         PlayerInputSingleton.Instance.Actions["Sprint"].canceled -= OnSprintEnd;
         PlayerInputSingleton.Instance.Actions["Attack"].performed -= OnAttackInput;
+        PlayerInputSingleton.Instance.Actions["PickUp"].performed -= OnPickUpInput;
     }
 
     private void Update()
@@ -84,6 +91,11 @@ public class CharacterMovement : MonoBehaviour
         m_animator.SetTrigger("Attack");
     }
 
+    private void OnPickUpInput(InputAction.CallbackContext context)
+    {
+        m_animator.SetTrigger("PickUp");
+    }
+
     private void UpdateMovementInput()
     {
         _wantedSpeed.x = _moveInput.x * _speedMagnitude;
@@ -114,13 +126,55 @@ public class CharacterMovement : MonoBehaviour
 
         Quaternion _targetRotation = Quaternion.LookRotation(_cameraForward);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, 1f - Mathf.Exp(- m_rotationSpeed * Time.deltaTime));
+        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, 1f - Mathf.Exp(-m_rotationSpeed * Time.deltaTime));
     }
 
     private void UpdateAnimator()
     {
-       m_animator.SetFloat("SpeedZ", _currentSpeed.z);
-       m_animator.SetFloat("SpeedX", _currentSpeed.x);
+        m_animator.SetFloat("SpeedZ", _currentSpeed.z);
+        m_animator.SetFloat("SpeedX", _currentSpeed.x);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Inventory Item"))
+        {
+            _canPickUp = true;
+            _itemPickUp = other.GetComponent<ItemPickup>();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Inventory Item"))
+        {
+            _canPickUp = false;
+            _itemPickUp = null;
+        }
+    }
+
+    public void OnAttackOpen()
+    {
+        _attackOpen = true;
+    }
+
+    public void OnAttackClosed()
+    {
+        _attackOpen = false;
+    }
+
+    public void OnGrabItem()
+    {
+        if (_canPickUp && _itemPickUp != null)
+        {
+            Inventory _inventory = GetComponent<Inventory>();
+
+            if (_inventory == null)
+            {
+                return;
+            }
+
+            _itemPickUp.CollectItem(_inventory);
+        }
+    }
 }

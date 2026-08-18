@@ -18,8 +18,8 @@
                 },
                 {
                     "name": "Look",
-                    "type": "PassThrough",
-                    "id": "cc6ade47-5a38-4f4e-8eab-db13da323280",
+                    "type": "Value",
+                    "id": "fd2d9a56-ca31-4934-a903-84b4b8fa0764",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -30,6 +30,16 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "dd3abd6f-a81d-43df-97e8-570a84210c45",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "PickUp",
+                    "type": "Button",
+                    "id": "cc25597d-cb91-48c2-808c-d98aa6d1b6e0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -149,6 +159,17 @@
                 },
                 {
                     "name": "",
+                    "id": "74d611c0-c386-4712-9741-7e0dc54f7540",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse;Touch",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a45393a4-abbf-42be-89c9-c9fa9f7b95f9",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -166,6 +187,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1523d94-bb77-44eb-9165-b4adfc830de2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
