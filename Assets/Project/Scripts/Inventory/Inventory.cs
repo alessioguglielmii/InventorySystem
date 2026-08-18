@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
@@ -12,10 +13,21 @@ public class Inventory : MonoBehaviour
     public int Capacity => m_nCapacity;
 
     public event Action OnInventoryChanged;
+    public event Action OnInventoryToggle;
 
     private void Awake()
     {
         Initialize();
+    }
+
+    private void Start()
+    {
+        PlayerInputSingleton.Instance.Actions["Inventory"].performed += OnInventoryShow;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerInputSingleton.Instance.Actions["Inventory"].performed -= OnInventoryShow;
     }
 
     private void Initialize()
@@ -27,7 +39,6 @@ public class Inventory : MonoBehaviour
             m_listSlots.Add(new InventorySlot());
         }
     }
-
 
     public bool AddItem(ItemData dataItem, int nQuantity = 1)
     {
@@ -133,24 +144,125 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    public void SwapSlots(int nFirstSlotIndex, int nSecondSlotIndex)
+    public bool MoveItem(int nSourceSlotIndex, int nTargetSlotIndex)
     {
-        if (!IsValidSlot(nFirstSlotIndex) || !IsValidSlot(nSecondSlotIndex))
+        if (!IsValidSlot(nSourceSlotIndex) || !IsValidSlot(nTargetSlotIndex))
         {
-            return;
+            return false;
         }
 
-        InventoryItem firstItem = m_listSlots[nFirstSlotIndex].Item;
-        InventoryItem secondItem = m_listSlots[nSecondSlotIndex].Item;
+        if (nSourceSlotIndex == nTargetSlotIndex)
+        {
+            return false;
+        }
 
-        m_listSlots[nFirstSlotIndex].SetItem(secondItem);
-        m_listSlots[nSecondSlotIndex].SetItem(firstItem);
+        InventorySlot invSourceSlot = m_listSlots[nSourceSlotIndex];
+
+        InventorySlot invTargetSlot = m_listSlots[nTargetSlotIndex];
+
+        if (invSourceSlot.IsEmpty)
+        {
+            return false;
+        }
+
+        // Target slot is empty.
+        if (invTargetSlot.IsEmpty)
+        {
+            InventoryItem inventoryItem = invSourceSlot.Item;
+
+            invTargetSlot.SetItem(inventoryItem);
+            invSourceSlot.Clear();
+
+            OnInventoryChanged?.Invoke();
+
+            return true;
+        }
+
+        InventoryItem invSourceItem = invSourceSlot.Item;
+
+        InventoryItem invTargetItem = invTargetSlot.Item;
+
+        if (invSourceItem.Data == invTargetItem.Data)
+        {
+            int nAvailableSpace = invTargetItem.GetAvailableSpace();
+
+            if (nAvailableSpace <= 0)
+            {
+                return false;
+            }
+
+            int nAmountToMove = Mathf.Min(invSourceItem.Quantity, nAvailableSpace);
+
+            invTargetItem.AddQuantity(nAmountToMove);
+            invSourceItem.RemoveQuantity(nAmountToMove);
+
+            if (invSourceItem.Quantity <= 0)
+            {
+                invSourceSlot.Clear();
+            }
+
+            OnInventoryChanged?.Invoke();
+
+            return true;
+        }
+
+        InventoryItem tempItem = invSourceSlot.Item;
+
+        invSourceSlot.SetItem(invTargetSlot.Item);
+        invTargetSlot.SetItem(tempItem);
 
         OnInventoryChanged?.Invoke();
+
+        return true;
     }
 
     private bool IsValidSlot(int nSlotIndex)
     {
         return nSlotIndex >= 0 && nSlotIndex < m_listSlots.Count;
+    }
+
+    public bool UseItem(int nSlotIndex, GameObject goTarget)
+    {
+        if (!IsValidSlot(nSlotIndex))
+        {
+            return false;
+        }
+
+        InventorySlot invSlot = m_listSlots[nSlotIndex];
+
+        if (invSlot.IsEmpty)
+        {
+            return false;
+        }
+            
+        InventoryItem invItem = invSlot.Item;
+
+        if (invItem.Data.Effect == null)
+        {
+            return false;
+        }
+
+        bool bEffectApplied = invItem.Data.Effect.Apply(goTarget);
+
+        if (!bEffectApplied)
+        {
+            return false;
+        }
+
+        invItem.RemoveQuantity(1);
+
+        if (invItem.Quantity <= 0)
+        {
+            invSlot.Clear();
+        }
+
+        OnInventoryChanged?.Invoke();
+
+        return true;
+    }
+
+    private void OnInventoryShow(InputAction.CallbackContext context)
+    {
+        OnInventoryToggle?.Invoke();
     }
 }

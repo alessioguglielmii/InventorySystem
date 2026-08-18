@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Chest
   - Inventory Item
+  - Unlockable
   layers:
   - Default
   - TransparentFX

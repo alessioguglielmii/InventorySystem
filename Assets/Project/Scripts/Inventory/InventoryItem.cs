@@ -22,4 +22,14 @@ public class InventoryItem
     {
         Quantity -= nAmount;
     }
+
+    public int GetAvailableSpace()
+    {
+        if (Data == null)
+        {
+            return 0;
+        }
+
+        return Data.MaxStackSize - Quantity;
+    }
 }

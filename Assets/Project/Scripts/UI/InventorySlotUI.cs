@@ -1,16 +1,21 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image m_imageIcon;
     [SerializeField] private TMP_Text m_textQuantity;
 
+    private Inventory m_inventory;
     private int m_nSlotIndex;
-    public void Initialize(int nSlotIndex)
+    private bool m_bWasDragged;
+
+    public void Initialize(Inventory inventory, int nSlotIndex)
     {
+        m_inventory = inventory;
         m_nSlotIndex = nSlotIndex;
 
         Clear();
@@ -28,7 +33,7 @@ public class InventorySlotUI : MonoBehaviour
         m_imageIcon.enabled = true;
 
         m_textQuantity.text = inventoryItem.Quantity.ToString();
-        m_textQuantity.enabled = inventoryItem.Quantity > 1;
+        m_textQuantity.enabled = true;
     }
 
     public void Clear()
@@ -43,5 +48,42 @@ public class InventorySlotUI : MonoBehaviour
     public int GetSlotIndex()
     {
         return m_nSlotIndex;
+    }
+
+    public Inventory GetInventory()
+    {
+        return m_inventory;
+    }
+
+    public Image GetIcon()
+    {
+        return m_imageIcon;
+    }
+
+    public bool HasItem()
+    {
+        return m_inventory != null && !m_inventory.Slots[m_nSlotIndex].IsEmpty;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
+        if (!HasItem())
+        {
+            return;
+        }
+
+        InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
+
+        if (inventoryUI == null)
+        {
+            return;
+        }
+
+        inventoryUI.SelectSlot(m_nSlotIndex);
     }
 }

@@ -25,7 +25,12 @@ public class CharacterMovement : MonoBehaviour
     private bool _canPickUp;
     private ItemPickup _itemPickUp;
 
+    private Unlockable _unlockable;
+
+    private bool _canMove = true;
+
     public bool AttackOpen => _attackOpen;
+    public Unlockable Unlockable => _unlockable;
 
     private void Start()
     {
@@ -68,7 +73,10 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnMoveStart(InputAction.CallbackContext context)
     {
-        _moveInput = context.ReadValue<Vector2>();
+        if (_canMove)
+        {
+            _moveInput = context.ReadValue<Vector2>();
+        }
     }
 
     private void OnMoveEnd(InputAction.CallbackContext context)
@@ -88,12 +96,18 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnAttackInput(InputAction.CallbackContext context)
     {
-        m_animator.SetTrigger("Attack");
+        if (_canMove)
+        {
+            m_animator.SetTrigger("Attack");
+        }
     }
 
     private void OnPickUpInput(InputAction.CallbackContext context)
     {
-        m_animator.SetTrigger("PickUp");
+        if (_canMove)
+        {
+            m_animator.SetTrigger("PickUp");
+        }
     }
 
     private void UpdateMovementInput()
@@ -142,6 +156,19 @@ public class CharacterMovement : MonoBehaviour
             _canPickUp = true;
             _itemPickUp = other.GetComponent<ItemPickup>();
         }
+
+        if (other.CompareTag("Unlockable"))
+        {
+            Unlockable compUnlockable = other.GetComponent<Unlockable>();
+
+            if (compUnlockable == null)
+            {
+                return;
+            }
+
+            _unlockable = compUnlockable;
+            _unlockable.CanBeUnlocked = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -150,6 +177,23 @@ public class CharacterMovement : MonoBehaviour
         {
             _canPickUp = false;
             _itemPickUp = null;
+        }
+
+        if (other.CompareTag("Unlockable"))
+        {
+            Unlockable compUnlockable = other.GetComponent<Unlockable>();
+
+            if (compUnlockable == null)
+            {
+                return;
+            }
+
+            compUnlockable.CanBeUnlocked = false;
+
+            if (_unlockable == compUnlockable)
+            {
+                _unlockable = null;
+            }
         }
     }
 
@@ -177,4 +221,15 @@ public class CharacterMovement : MonoBehaviour
             _itemPickUp.CollectItem(_inventory);
         }
     }
+
+    public void OnMoveChanged()
+    {
+        _canMove = !_canMove;
+
+        if (!_canMove)
+        {
+            _moveInput = Vector3.zero;
+        }
+    }
+
 }

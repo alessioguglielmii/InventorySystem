@@ -21,6 +21,7 @@ public class CharacterCamera : MonoBehaviour
     private float _currentArmLenght;
 
     private Vector2 _mouseLook;
+    private bool _canMove = true;
 
     private void Awake()
     {
@@ -46,7 +47,10 @@ public class CharacterCamera : MonoBehaviour
 
     private void OnLookPerformed(InputAction.CallbackContext context)
     {
-        _mouseLook = context.ReadValue<Vector2>();
+        if (_canMove)
+        {
+            _mouseLook = context.ReadValue<Vector2>();
+        }
     }
 
     private void OnLookCanceled(InputAction.CallbackContext context)
@@ -84,5 +88,10 @@ public class CharacterCamera : MonoBehaviour
         {
             SetArmLength(m_desiredArmLenght);
         }
+    }
+
+    public void OnMoveChanged()
+    {
+        _canMove = !_canMove;
     }
 }
