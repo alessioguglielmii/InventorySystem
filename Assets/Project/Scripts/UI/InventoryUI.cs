@@ -14,6 +14,10 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Button m_buttonUse;
     [SerializeField] private TMP_Text m_textUse;
     [SerializeField] private ItemTooltipUI m_itemTooltip;
+    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private AudioClip m_toggleClip;
+    [SerializeField] private AudioClip m_slotSelectedClip;
+    [SerializeField] private AudioClip m_buttonUsePressedClip;
 
     private readonly List<InventorySlotUI> _listSlots = new();
 
@@ -164,6 +168,11 @@ public class InventoryUI : MonoBehaviour
 
         bool bUsed = m_inventory.UseItem(_selectedSlotIndex, goTarget);
 
+        if (m_audioSource != null && m_buttonUsePressedClip != null)
+        {
+            m_audioSource.PlayOneShot(m_buttonUsePressedClip);
+        }        
+
         if (bUsed)
         {
             DeselectSlot();
@@ -207,6 +216,11 @@ public class InventoryUI : MonoBehaviour
 
     private void Toggle()
     {
+        if (m_audioSource != null && m_toggleClip != null)
+        {
+            m_audioSource.PlayOneShot(m_toggleClip);
+        }
+
         m_animator.SetTrigger("Toggle");
 
         _isShown = !_isShown;
@@ -224,7 +238,7 @@ public class InventoryUI : MonoBehaviour
         m_characterCamera.OnMoveChanged();
     }
 
-    public void ShowTooltip(int nSlotIndex, Vector3 position)
+    public void ShowTooltip(int nSlotIndex, Vector3 position, bool invertPivot)
     {
         if (m_itemTooltip == null)
         {
@@ -246,7 +260,7 @@ public class InventoryUI : MonoBehaviour
 
         string strItemName = invSlot.Item.Data.ItemName;
 
-        m_itemTooltip.Show(strItemName, new Vector2(position.x, position.y));
+        m_itemTooltip.Show(strItemName, new Vector2(position.x, position.y), invertPivot);
     }
 
     public void HideTooltip()
@@ -254,6 +268,22 @@ public class InventoryUI : MonoBehaviour
         if (m_itemTooltip != null)
         {
             m_itemTooltip.Hide();
+        }
+    }
+
+    public void PlaySlotSelectedClip()
+    {
+        if (m_audioSource != null && m_slotSelectedClip != null)
+        {
+            m_audioSource.PlayOneShot(m_slotSelectedClip);
+        }
+    }
+
+    public void PlayUseButtonPressedClip()
+    {
+        if (m_audioSource != null && m_buttonUsePressedClip != null)
+        {
+            m_audioSource.PlayOneShot(m_buttonUsePressedClip);
         }
     }
 }

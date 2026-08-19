@@ -97,6 +97,17 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         {
             m_goSelection.SetActive(bSelected);
         }
+
+        if (bSelected)
+        {
+            InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
+
+            if (inventoryUI != null)
+            {
+                inventoryUI.PlaySlotSelectedClip();
+            }
+        } 
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -119,9 +130,16 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
         rectTransform.GetWorldCorners(arrCorners);
 
-        Vector3 topRight = arrCorners[2];
+        Vector3 position = arrCorners[2];
+        bool invertPivot = false;
 
-        inventoryUI.ShowTooltip(_nSlotIndex, topRight);
+        if (_nSlotIndex >= 10)
+        {
+            position = arrCorners[1];
+            invertPivot = true;
+        }
+
+        inventoryUI.ShowTooltip(_nSlotIndex, position, invertPivot);
     }
 
     public void OnPointerExit(PointerEventData eventData)

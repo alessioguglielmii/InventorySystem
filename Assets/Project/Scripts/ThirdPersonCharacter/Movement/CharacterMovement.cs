@@ -22,6 +22,12 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float m_bombForce = 30.0f;
     [SerializeField] private float m_bombUpwardForce = 0.01f;
 
+    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private AudioClip[] m_footspepsClips;
+    [SerializeField] private AudioClip[] m_swordClips;
+    [SerializeField] private AudioClip m_itemGrabClip;
+    [SerializeField] private AudioClip m_bombThrowClip;
+
     private Vector3 _currentSpeed;
     private Vector3 _wantedSpeed;
 
@@ -266,6 +272,8 @@ public class CharacterMovement : MonoBehaviour
             }
 
             _itemPickUp.CollectItem(_inventory);
+
+            m_audioSource.PlayOneShot(m_itemGrabClip);
         }
     }
 
@@ -314,6 +322,11 @@ public class CharacterMovement : MonoBehaviour
     {
         Bomb bomb = _goBomb.GetComponent<Bomb>();
         bomb.isThrown = true;
+
+        if(m_audioSource != null && m_bombThrowClip != null)
+        {
+            m_audioSource.PlayOneShot(m_bombThrowClip);
+        }        
 
         Rigidbody rigidbody = _goBomb.GetComponent<Rigidbody>();
 
@@ -382,6 +395,26 @@ public class CharacterMovement : MonoBehaviour
             materials[0] = _weaponMaterial;
             weaponMeshRenderer.materials = materials;
         }
+    }
+
+    public void OnFootSound()
+    {
+        int audioIndex = Random.Range(0, m_footspepsClips.Length);
+        float lowerVolume = 0.8f;
+        float upperVolume = 1.2f;
+        float lowerPitch = 0.8f;
+        float upperPitch = 1.2f;
+
+        m_audioSource.volume = Random.Range(lowerVolume, upperVolume);
+        m_audioSource.pitch = Random.Range(lowerPitch, upperPitch);
+        m_audioSource.PlayOneShot(m_footspepsClips[audioIndex]);
+    }
+
+    public void OnSwordSound()
+    {
+        int audioIndex = Random.Range(0, m_swordClips.Length);
+
+        m_audioSource.PlayOneShot(m_swordClips[audioIndex]);
     }
 
 }

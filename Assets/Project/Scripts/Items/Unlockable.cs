@@ -4,7 +4,8 @@ public class Unlockable : MonoBehaviour
 {
     [SerializeField] private Animator m_animator;
     [SerializeField] private bool m_isUnlocked = false;
-
+    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private AudioClip m_openGateClip;
     public bool IsUnlocked => m_isUnlocked;
     [HideInInspector] public bool CanBeUnlocked = false;
 
@@ -24,6 +25,11 @@ public class Unlockable : MonoBehaviour
 
     private void OperDoor()
     {
+        if (m_audioSource != null && m_openGateClip != null)
+        {
+            m_audioSource.PlayOneShot(m_openGateClip);
+        }
+
         m_animator.SetTrigger("Open");
     }
 }

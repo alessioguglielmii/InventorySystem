@@ -6,6 +6,16 @@ public class Chest : MonoBehaviour
     [SerializeField] private GameObject m_breakEffect;
     [SerializeField] private ItemPickup m_inventoryItem;
 
+    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private AudioClip m_chestHit;
+    [SerializeField] private AudioClip m_chestBreak;
+
+
+    public void OnDestroy()
+    {
+        
+    }
+
     public void DamageChest(int _hitPower)
     {
         m_endurance -= _hitPower;
@@ -22,6 +32,11 @@ public class Chest : MonoBehaviour
             {
                 animator.SetTrigger("Hit");
             }
+
+            if (m_audioSource != null && m_chestHit != null)
+            {
+                m_audioSource.PlayOneShot(m_chestHit);
+            }
         }
     }
     
@@ -30,6 +45,28 @@ public class Chest : MonoBehaviour
         if (m_breakEffect != null)
         {
             Instantiate(m_breakEffect, transform.position, transform.rotation);
+        }
+
+        if(m_audioSource != null && m_chestBreak != null)
+        {
+            GameObject audioObject = new GameObject("ChestBreakAudio");
+
+            audioObject.transform.position = transform.position;
+
+            AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+
+            audioSource.clip = m_chestBreak;
+            audioSource.outputAudioMixerGroup = m_audioSource.outputAudioMixerGroup;
+            audioSource.spatialBlend = m_audioSource.spatialBlend;
+            audioSource.minDistance = m_audioSource.minDistance;
+            audioSource.maxDistance = m_audioSource.maxDistance;
+            audioSource.volume = m_audioSource.volume;
+            audioSource.reverbZoneMix = m_audioSource.reverbZoneMix;
+            audioSource.rolloffMode = m_audioSource.rolloffMode;
+
+            audioSource.Play();
+
+            Destroy(audioObject, m_chestBreak.length);
         }
 
         if (m_inventoryItem != null)
@@ -41,6 +78,6 @@ public class Chest : MonoBehaviour
 
         }
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
