@@ -131,6 +131,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_desiredArmLenght: 2
+  m_minVerticalAngle: -60
+  m_maxVerticalAngle: 45
 --- !u!1 &3629958190413968321
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +259,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ee1b16ab90a39043bdcb1c5a45f189a, type: 3}
+--- !u!1 &452272172686190779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4334314813405729788, guid: 4ee1b16ab90a39043bdcb1c5a45f189a, type: 3}
+  m_PrefabInstance: {fileID: 4206467050476026695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &452272174438659425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4334314812708720166, guid: 4ee1b16ab90a39043bdcb1c5a45f189a, type: 3}
@@ -392,7 +399,7 @@ CharacterController:
   m_Height: 1.8
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.05
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -415,6 +422,8 @@ MonoBehaviour:
   m_animator: {fileID: 347287568567726803}
   m_cameraPivot: {fileID: 3709841666093319935}
   m_rotationSpeed: 270
+  m_weaponMesh: {fileID: 452272172686190779}
+  m_invisibilityTime: 15
 --- !u!114 &725690211501301898
 MonoBehaviour:
   m_ObjectHideFlags: 0

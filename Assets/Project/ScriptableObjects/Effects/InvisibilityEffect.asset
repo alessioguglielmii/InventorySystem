@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9072c946d4bc51247bc21e769461b61c, type: 3}
   m_Name: InvisibilityEffect
   m_EditorClassIdentifier: Assembly-CSharp::InvisibilityEffect
+  m_invisibilityMaterial: {fileID: 2100000, guid: 43bfcb34744fe07469466e7a30e17201, type: 2}

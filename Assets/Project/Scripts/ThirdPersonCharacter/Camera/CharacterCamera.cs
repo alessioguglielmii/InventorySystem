@@ -12,13 +12,12 @@ public class CharacterCamera : MonoBehaviour
     [SerializeField] private float m_verticalSpeed;
     [SerializeField] private bool m_invertMouse;
     [SerializeField] private LayerMask m_collisionMask;
-    [SerializeField] private float m_desiredArmLenght = 2;
+    [SerializeField] private float m_desiredArmLenght = 2.0f;
+    [SerializeField] private float m_minVerticalAngle = -60.0f;
+    [SerializeField] private float m_maxVerticalAngle = 45.0f;
 
-
-    private float _veritcalInput;
-    private float _horizontalInput;
-
-    private float _currentArmLenght;
+    private float _horizontalRotation;
+    private float _verticalRotation;
 
     private Vector2 _mouseLook;
     private bool _canMove = true;
@@ -30,6 +29,15 @@ public class CharacterCamera : MonoBehaviour
 
     private void Start()
     {
+        _horizontalRotation = transform.eulerAngles.y;
+
+        _verticalRotation = m_elevation.localEulerAngles.x;
+
+        if (_verticalRotation > 180.0f)
+        {
+            _verticalRotation -= 360.0f;
+        }
+
         PlayerInputSingleton.Instance.Actions["Look"].performed += OnLookPerformed;
         PlayerInputSingleton.Instance.Actions["Look"].canceled += OnLookCanceled;
     }
@@ -65,15 +73,24 @@ public class CharacterCamera : MonoBehaviour
 
     private void SetArmLength(float lenght)
     {
-        _currentArmLenght = lenght;
         m_cameraPoint.localPosition = new Vector3(0, 0, -lenght);
     }
 
     private void HandleRotation()
     {
-        transform.Rotate(Vector3.up, _mouseLook.x * m_horizontalSpeed * Time.deltaTime);
+        float horizontalInput = _mouseLook.x * m_horizontalSpeed * Time.deltaTime;
 
-        m_elevation.Rotate(Vector3.right, _mouseLook.y * m_verticalSpeed * (m_invertMouse ? 1f : -1f) * Time.deltaTime);
+        _horizontalRotation += horizontalInput;
+
+        transform.rotation = Quaternion.Euler(0.0f, _horizontalRotation, 0.0f);
+
+        float verticalInput = _mouseLook.y * m_verticalSpeed * (m_invertMouse ? 1.0f : -1.0f) * Time.deltaTime;
+
+        _verticalRotation += verticalInput;
+
+        _verticalRotation = Mathf.Clamp(_verticalRotation, m_minVerticalAngle, m_maxVerticalAngle);
+
+        m_elevation.localRotation = Quaternion.Euler(_verticalRotation, 0.0f, 0.0f);
     }
 
     private void IsCameraOccluded()

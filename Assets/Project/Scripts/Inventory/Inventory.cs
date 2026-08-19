@@ -165,7 +165,6 @@ public class Inventory : MonoBehaviour
             return false;
         }
 
-        // Target slot is empty.
         if (invTargetSlot.IsEmpty)
         {
             InventoryItem inventoryItem = invSourceSlot.Item;

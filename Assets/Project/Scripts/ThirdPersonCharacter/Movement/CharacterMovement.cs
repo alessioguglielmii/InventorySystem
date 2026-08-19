@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +14,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private Animator m_animator;
     [SerializeField] private Transform m_cameraPivot;
     [SerializeField] private float m_rotationSpeed;
+    [SerializeField] private GameObject m_weaponMesh;
+    [SerializeField] private float m_invisibilityTime;
 
     private Vector3 _currentSpeed;
     private Vector3 _wantedSpeed;
@@ -29,6 +32,11 @@ public class CharacterMovement : MonoBehaviour
 
     private bool _canMove = true;
 
+    private Dictionary<string, Material> _characterMaterials = new();
+    private Material _weaponMaterial;
+
+    private float _invisibilityCurrentTime;
+
     public bool AttackOpen => _attackOpen;
     public Unlockable Unlockable => _unlockable;
 
@@ -41,6 +49,27 @@ public class CharacterMovement : MonoBehaviour
         PlayerInputSingleton.Instance.Actions["Sprint"].canceled += OnSprintEnd;
         PlayerInputSingleton.Instance.Actions["Attack"].performed += OnAttackInput;
         PlayerInputSingleton.Instance.Actions["PickUp"].performed += OnPickUpInput;
+
+        foreach (Transform child in gameObject.transform)
+        {
+            SkinnedMeshRenderer meshRenderer = child.GetComponent<SkinnedMeshRenderer>();
+
+            if (meshRenderer != null)
+            {
+                _characterMaterials.Add(child.name, meshRenderer.materials[0]);
+
+
+            }
+        }
+
+        MeshRenderer weaponMeshRenderer = m_weaponMesh.GetComponent<MeshRenderer>();
+
+        if (weaponMeshRenderer != null)
+        {
+            _weaponMaterial = weaponMeshRenderer.materials[0];
+        }
+
+        _invisibilityCurrentTime = 0;
     }
 
     private void OnDestroy()
@@ -58,6 +87,16 @@ public class CharacterMovement : MonoBehaviour
         UpdateMovementInput();
         OrientCharacterToCamera();
         UpdateAnimator();
+
+        if (_invisibilityCurrentTime > 0)
+        {
+            _invisibilityCurrentTime -= Time.deltaTime;
+        }
+        else
+        {
+            _invisibilityCurrentTime = 0;
+            EndInvisibility();
+        }
     }
 
     private void OnAnimatorMove()
@@ -229,6 +268,58 @@ public class CharacterMovement : MonoBehaviour
         if (!_canMove)
         {
             _moveInput = Vector3.zero;
+        }
+    }
+
+    public void StartInvisibility(Material invisibilityMaterial)
+    {
+        foreach (Transform child in gameObject.transform)
+        {
+            SkinnedMeshRenderer meshRenderer = child.GetComponent<SkinnedMeshRenderer>();
+
+            if (meshRenderer != null)
+            {
+                Material[] materials = meshRenderer.materials;
+                materials[0] = invisibilityMaterial;
+                meshRenderer.materials = materials;
+            }
+        }
+
+        MeshRenderer weaponMeshRenderer = m_weaponMesh.GetComponent<MeshRenderer>();
+
+        if (weaponMeshRenderer != null)
+        {
+            Material[] materials = weaponMeshRenderer.materials;
+            materials[0] = invisibilityMaterial;
+            weaponMeshRenderer.materials = materials;
+        }
+
+        _invisibilityCurrentTime += m_invisibilityTime;
+    }
+
+    public void EndInvisibility()
+    {
+        foreach (Transform child in gameObject.transform)
+        {
+            SkinnedMeshRenderer meshRenderer = child.GetComponent<SkinnedMeshRenderer>();
+
+            if (meshRenderer != null)
+            {
+                Material[] materials = meshRenderer.materials;
+                Material characterMaterial;
+                _characterMaterials.TryGetValue(child.name, out characterMaterial);
+                materials[0] = characterMaterial;
+                meshRenderer.materials = materials;
+            }
+        }
+
+        MeshRenderer weaponMeshRenderer = m_weaponMesh.GetComponent<MeshRenderer>();
+
+        if (weaponMeshRenderer != null)
+        {
+            Material[] materials = weaponMeshRenderer.materials;
+            materials[0] = _weaponMaterial;
+            weaponMeshRenderer.materials = materials;
         }
     }
 

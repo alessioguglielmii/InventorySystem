@@ -182,6 +182,11 @@ public class InventoryUI : MonoBehaviour
             return m_inventory.gameObject;
         }
 
+        if (itemData.Effect is InvisibilityEffect)
+        {
+            return m_inventory.gameObject;
+        }
+
         if (itemData.Effect is UnlockEffect)
         {
             return FindUnlockableTarget();

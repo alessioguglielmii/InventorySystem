@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4334314813405729784}
   - component: {fileID: 4484208065627108173}
   - component: {fileID: 558068981155754795}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LongSwordMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,3 +157,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b4dfb05f1de1e469e7f02b048241ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LongSword
+  m_HitPower: 1
+  m_wielder: {fileID: 0}

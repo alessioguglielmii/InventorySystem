@@ -12,7 +12,6 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     private Inventory _inventory;
     private int _nSlotIndex;
-    private bool m_bWasDragged;
 
     public void Initialize(Inventory inventory, int nSlotIndex)
     {
