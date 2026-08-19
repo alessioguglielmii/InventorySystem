@@ -18,13 +18,22 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
+
+        if (inventoryUI != null)
+        {
+            inventoryUI.HideTooltip();
+        }
+
         if (m_slotUI == null)
         {
             return;
         }
 
         if (!m_slotUI.HasItem())
+        {
             return;
+        }
 
         CreateDragObject();
 

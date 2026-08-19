@@ -4,19 +4,22 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
+public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image m_imageIcon;
     [SerializeField] private TMP_Text m_textQuantity;
+    [SerializeField] private GameObject m_goSelection;
 
-    private Inventory m_inventory;
-    private int m_nSlotIndex;
+    private Inventory _inventory;
+    private int _nSlotIndex;
     private bool m_bWasDragged;
 
     public void Initialize(Inventory inventory, int nSlotIndex)
     {
-        m_inventory = inventory;
-        m_nSlotIndex = nSlotIndex;
+        _inventory = inventory;
+        _nSlotIndex = nSlotIndex;
+
+        SetSelected(false);
 
         Clear();
     }
@@ -43,16 +46,18 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
 
         m_textQuantity.text = string.Empty;
         m_textQuantity.enabled = false;
+
+        SetSelected(false);
     }
 
     public int GetSlotIndex()
     {
-        return m_nSlotIndex;
+        return _nSlotIndex;
     }
 
     public Inventory GetInventory()
     {
-        return m_inventory;
+        return _inventory;
     }
 
     public Image GetIcon()
@@ -62,7 +67,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
 
     public bool HasItem()
     {
-        return m_inventory != null && !m_inventory.Slots[m_nSlotIndex].IsEmpty;
+        return _inventory != null && !_inventory.Slots[_nSlotIndex].IsEmpty;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -84,6 +89,51 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        inventoryUI.SelectSlot(m_nSlotIndex);
+        inventoryUI.SelectSlot(_nSlotIndex);
+    }
+
+    public void SetSelected(bool bSelected)
+    {
+        if (m_goSelection != null)
+        {
+            m_goSelection.SetActive(bSelected);
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!HasItem())
+        {
+            return;
+        }
+
+        InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
+
+        if (inventoryUI == null)
+        {
+            return;
+        }
+
+        RectTransform rectTransform = GetComponent<RectTransform>();
+
+        Vector3[] arrCorners = new Vector3[4];
+
+        rectTransform.GetWorldCorners(arrCorners);
+
+        Vector3 topRight = arrCorners[2];
+
+        inventoryUI.ShowTooltip(_nSlotIndex, topRight);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
+
+        if (inventoryUI == null)
+        {
+            return;
+        }
+
+        inventoryUI.HideTooltip();
     }
 }

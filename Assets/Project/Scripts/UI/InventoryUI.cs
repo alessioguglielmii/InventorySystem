@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +13,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Animator m_animator;
     [SerializeField] private Button m_buttonUse;
     [SerializeField] private TMP_Text m_textUse;
+    [SerializeField] private ItemTooltipUI m_itemTooltip;
 
     private readonly List<InventorySlotUI> _listSlots = new();
 
@@ -37,6 +37,11 @@ public class InventoryUI : MonoBehaviour
         if (m_trContainer == null)
         {
            return;
+        }
+
+        if (m_itemTooltip != null)
+        {
+            m_itemTooltip.Hide();
         }
 
         CreateSlots();
@@ -106,9 +111,16 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
+        if (_selectedSlotIndex >= 0 && _selectedSlotIndex < _listSlots.Count)
+        {
+            _listSlots[_selectedSlotIndex].SetSelected(false);
+        }
+
         _selectedSlotIndex = nSlotIndex;
 
-        if (m_buttonUse != null)
+        _listSlots[_selectedSlotIndex].SetSelected(true);
+
+        if (m_buttonUse != null && m_textUse != null)
         {
             bool bCanUse = invSlot.Item.Data.Effect != null;
 
@@ -119,9 +131,14 @@ public class InventoryUI : MonoBehaviour
 
     private void DeselectSlot()
     {
+        if (_selectedSlotIndex >= 0 && _selectedSlotIndex < _listSlots.Count)
+        {
+            _listSlots[_selectedSlotIndex].SetSelected(false);
+        }
+
         _selectedSlotIndex = -1;
 
-        if (m_buttonUse != null)
+        if (m_buttonUse != null && m_textUse != null)
         {
             m_buttonUse.gameObject.GetComponent<Image>().enabled = false;
             m_textUse.gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
@@ -200,5 +217,38 @@ public class InventoryUI : MonoBehaviour
 
         m_characterMovement.OnMoveChanged();
         m_characterCamera.OnMoveChanged();
+    }
+
+    public void ShowTooltip(int nSlotIndex, Vector3 position)
+    {
+        if (m_itemTooltip == null)
+        {
+            return;
+        }
+
+        if (nSlotIndex < 0 || nSlotIndex >= m_inventory.Capacity)
+        {
+            return;
+        }
+
+        InventorySlot invSlot = m_inventory.Slots[nSlotIndex];
+
+        if (invSlot.IsEmpty)
+        {
+            m_itemTooltip.Hide();
+            return;
+        }
+
+        string strItemName = invSlot.Item.Data.ItemName;
+
+        m_itemTooltip.Show(strItemName, new Vector2(position.x, position.y));
+    }
+
+    public void HideTooltip()
+    {
+        if (m_itemTooltip != null)
+        {
+            m_itemTooltip.Hide();
+        }
     }
 }
