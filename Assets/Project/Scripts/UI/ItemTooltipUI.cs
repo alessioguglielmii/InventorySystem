@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 public class ItemTooltipUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_textItemName;
-    [SerializeField] private Vector2 m_offset = new Vector2(10f, 10f);
+    [SerializeField] private Vector2 m_offset = new Vector2(-2.0f, -2.0f);
 
     private RectTransform _rectTransform;
 
@@ -28,16 +28,6 @@ public class ItemTooltipUI : MonoBehaviour
         Canvas.ForceUpdateCanvases();
 
         Vector2 position = screenPosition + m_offset;
-
-        Vector2 size = _rectTransform.rect.size;
-
-        float halfWidth = size.x * 0.5f;
-
-        float halfHeight = size.y * 0.5f;
-
-        position.x = Mathf.Clamp(position.x, halfWidth, Screen.width -halfWidth);
-
-        position.y = Mathf.Clamp(position.y, halfHeight, Screen.height - halfHeight);
 
         _rectTransform.position = position;
     }
