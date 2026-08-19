@@ -12,22 +12,35 @@ public class Chest : MonoBehaviour
 
         if (m_endurance <= 0)
         {
-
-            if(m_breakEffect != null)
-            {
-                Instantiate(m_breakEffect, transform.position, transform.rotation);
-            }
-
-            if (m_inventoryItem != null)
-            {
-                Vector3 _itemPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.75f, gameObject.transform.position.z);
-
-                GameObject inventoryItem = Instantiate(m_inventoryItem.gameObject);
-                inventoryItem.transform.position = _itemPosition;
-
-            }
-
-            gameObject.SetActive(false);
+            DestroyChest();
         }
-    }    
+        else
+        {
+            Animator animator = GetComponent<Animator>();
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Hit");
+            }
+        }
+    }
+    
+    public void DestroyChest()
+    {
+        if (m_breakEffect != null)
+        {
+            Instantiate(m_breakEffect, transform.position, transform.rotation);
+        }
+
+        if (m_inventoryItem != null)
+        {
+            Vector3 _itemPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.5f, gameObject.transform.position.z);
+
+            GameObject inventoryItem = Instantiate(m_inventoryItem.gameObject);
+            inventoryItem.transform.position = _itemPosition;
+
+        }
+
+        gameObject.SetActive(false);
+    }
 }

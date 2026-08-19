@@ -17,6 +17,11 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private GameObject m_weaponMesh;
     [SerializeField] private float m_invisibilityTime;
 
+    [SerializeField] private Transform m_bombSocket;
+    [SerializeField] private GameObject m_bombObject;
+    [SerializeField] private float m_bombForce = 30.0f;
+    [SerializeField] private float m_bombUpwardForce = 0.01f;
+
     private Vector3 _currentSpeed;
     private Vector3 _wantedSpeed;
 
@@ -36,6 +41,9 @@ public class CharacterMovement : MonoBehaviour
     private Material _weaponMaterial;
 
     private float _invisibilityCurrentTime;
+
+    private bool _throwingBomb = false;
+    private GameObject _goBomb;
 
     public bool AttackOpen => _attackOpen;
     public Unlockable Unlockable => _unlockable;
@@ -269,6 +277,59 @@ public class CharacterMovement : MonoBehaviour
         {
             _moveInput = Vector3.zero;
         }
+    }
+
+    public void ThrowBomb()
+    {
+        if (_throwingBomb)
+        {
+            return;
+        }
+
+        if (m_bombObject == null)
+        {
+            _throwingBomb = false;
+
+            return;
+        }
+
+        if (m_bombSocket == null)
+        {
+           _throwingBomb = false;
+
+           return;
+        }
+
+        _goBomb = Instantiate(m_bombObject, m_bombSocket.position, m_bombSocket.rotation);
+
+        Bomb bomb = _goBomb.GetComponent<Bomb>();
+        bomb.bombSocket = m_bombSocket;
+
+        m_animator.SetTrigger("Throw");
+
+        _throwingBomb = true;
+    }
+
+    public void OnThrowBomb()
+    {
+        Bomb bomb = _goBomb.GetComponent<Bomb>();
+        bomb.isThrown = true;
+
+        Rigidbody rigidbody = _goBomb.GetComponent<Rigidbody>();
+
+        if (rigidbody != null)
+        {
+            rigidbody.linearVelocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
+
+            Vector3 throwDirection = transform.forward;
+            throwDirection.y = m_bombUpwardForce;
+            throwDirection.Normalize();
+
+            rigidbody.AddForce(throwDirection * m_bombForce, ForceMode.Impulse);
+        }
+
+        _throwingBomb = false;
     }
 
     public void StartInvisibility(Material invisibilityMaterial)

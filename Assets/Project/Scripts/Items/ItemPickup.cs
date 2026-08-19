@@ -1,8 +1,26 @@
+using TMPro;
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
     [SerializeField] private ItemData m_dataItem;
+
+    [SerializeField] private float m_floatingHeight = 0.25f;
+    [SerializeField] private float m_floatingSpeed = 1.5f;
+    [SerializeField] private float m_rotationSpeed = 60.0f;
+
+    private float _initialPositionY;
+
+
+    public void Start()
+    {
+        _initialPositionY = transform.position.y;
+    }
+
+    public void Update()
+    {
+        FloatItem();
+    }
 
     public void CollectItem(Inventory inventory)
     {
@@ -14,5 +32,14 @@ public class ItemPickup : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void FloatItem()
+    {
+        float offset = Mathf.Sin(Time.time * m_floatingSpeed) * m_floatingHeight;
+
+        transform.position = new Vector3(transform.position.x, _initialPositionY + offset, transform.position.z);
+
+        transform.Rotate(0.0f, m_rotationSpeed * Time.deltaTime, 0.0f);
     }
 }
