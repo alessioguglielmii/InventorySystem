@@ -11,7 +11,6 @@ public class ItemPickup : MonoBehaviour
 
     private float _initialPositionY;
 
-
     public void Start()
     {
         _initialPositionY = transform.position.y;
@@ -22,18 +21,21 @@ public class ItemPickup : MonoBehaviour
         FloatItem();
     }
 
-    public bool CollectItem(Inventory inventory)
+    public bool CheckItem(Inventory inventory)
+    {
+        return inventory.HasSpaceForItem(m_dataItem);
+    }
+
+    public void CollectItem(Inventory inventory)
     {
         bool bAdded = inventory.AddItem(m_dataItem);
 
         if (!bAdded)
         {
-            return false;
+            return;
         }
 
         Destroy(gameObject);
-
-        return true;
     }
 
     private void FloatItem()

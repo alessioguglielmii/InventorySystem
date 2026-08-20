@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Chest : MonoBehaviour
 {
@@ -10,10 +11,11 @@ public class Chest : MonoBehaviour
     [SerializeField] private AudioClip m_chestHit;
     [SerializeField] private AudioClip m_chestBreak;
 
+    private Animator _animator;
 
-    public void OnDestroy()
+    private void Awake()
     {
-        
+        _animator = GetComponent<Animator>();
     }
 
     public void DamageChest(int _hitPower)
@@ -26,16 +28,14 @@ public class Chest : MonoBehaviour
         }
         else
         {
-            Animator animator = GetComponent<Animator>();
-
-            if (animator != null)
+            if (_animator != null)
             {
-                animator.SetTrigger("Hit");
-            }
+                _animator.SetTrigger("Hit");
 
-            if (m_audioSource != null && m_chestHit != null)
-            {
-                m_audioSource.PlayOneShot(m_chestHit);
+                if (m_audioSource != null && m_chestHit != null)
+                {
+                    m_audioSource.PlayOneShot(m_chestHit);
+                }
             }
         }
     }

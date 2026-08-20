@@ -152,7 +152,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnAttackInput(InputAction.CallbackContext context)
     {
-        if (_canMove && !_isGrabbing && !_isThrowing)
+        if (_canMove && !_isAttacking && !_isGrabbing && !_isThrowing)
         {
             _isAttacking = true;
             m_animator.SetTrigger("Attack");
@@ -161,11 +161,30 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnPickUpInput(InputAction.CallbackContext context)
     {
-        if (_canMove && !_isAttacking && !_isThrowing)
+        if (!_canMove || _isGrabbing || _isAttacking || _isThrowing)
         {
-            _isGrabbing = true;
-            m_animator.SetTrigger("PickUp");
+            return;
         }
+
+        if (!_canPickUp || _itemPickUp == null)
+        {
+            return;
+        }
+
+        Inventory inventory = GetComponent<Inventory>();
+
+        if (inventory == null)
+        {
+            return;
+        }
+
+        if (!_itemPickUp.CheckItem(inventory))
+        {
+            return;
+        }
+
+        _isGrabbing = true;
+        m_animator.SetTrigger("PickUp");
     }
 
     private void UpdateMovementInput()
@@ -272,22 +291,16 @@ public class CharacterMovement : MonoBehaviour
 
     public void OnGrabItem()
     {
-        if (_canPickUp && _itemPickUp != null)
+       Inventory inventory = GetComponent<Inventory>();
+
+        if (inventory == null)
         {
-            Inventory _inventory = GetComponent<Inventory>();
-
-            if (_inventory == null)
-            {
-                return;
-            }
-
-            bool pickedUp = _itemPickUp.CollectItem(_inventory);
-
-            if (m_audioSource != null && pickedUp)
-            {
-                m_audioSource.PlayOneShot(m_itemGrabClip);
-            }
+            return;
         }
+
+        _itemPickUp.CollectItem(inventory);
+
+        m_audioSource.PlayOneShot(m_itemGrabClip);
     }
 
     public void OnGrabEnded()

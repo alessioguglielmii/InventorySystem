@@ -41,19 +41,79 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool AddItem(ItemData dataItem, int nQuantity = 1)
+    public bool HasSpaceForItem(ItemData dataItem, int quantity = 1)
     {
-        if (dataItem == null || nQuantity <= 0)
+        if (dataItem == null || quantity <= 0)
         {
             return false;
         }
 
-        int nRemainingQuantity = nQuantity;
+        int remainingQuantity = quantity;
 
-        // First try to add the item to existing stacks.
-        for (int nIndex = 0; nIndex < m_listSlots.Count; nIndex++)
+        for (int index = 0; index < m_listSlots.Count; index++)
         {
-            InventorySlot inventorySlot = m_listSlots[nIndex];
+            InventorySlot inventorySlot = m_listSlots[index];
+
+            if (inventorySlot.IsEmpty)
+            {
+                continue;
+            }
+
+            InventoryItem inventoryItem = inventorySlot.Item;
+
+            if (inventoryItem.Data != dataItem)
+            {
+                continue;
+            }
+
+            int availableSpace = dataItem.MaxStackSize -
+                inventoryItem.Quantity;
+
+            if (availableSpace <= 0)
+            {
+                continue;
+            }
+
+            remainingQuantity -= availableSpace;
+
+            if (remainingQuantity <= 0)
+            {
+                return true;
+            }
+        }
+
+        for (int index = 0; index < m_listSlots.Count; index++)
+        {
+            InventorySlot inventorySlot = m_listSlots[index];
+
+            if (!inventorySlot.IsEmpty)
+            {
+                continue;
+            }
+
+            remainingQuantity -= dataItem.MaxStackSize;
+
+            if (remainingQuantity <= 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool AddItem(ItemData dataItem, int quantity = 1)
+    {
+        if (dataItem == null || quantity <= 0)
+        {
+            return false;
+        }
+
+        int remainingQuantity = quantity;
+
+        for (int index = 0; index < m_listSlots.Count; index++)
+        {
+            InventorySlot inventorySlot = m_listSlots[index];
 
             if (inventorySlot.IsEmpty)
             {
@@ -67,20 +127,20 @@ public class Inventory : MonoBehaviour
                 continue;
             }                
 
-            int nAvailableSpace = dataItem.MaxStackSize - inventoryItem.Quantity;
+            int availableSpace = dataItem.MaxStackSize - inventoryItem.Quantity;
 
-            if (nAvailableSpace <= 0)
+            if (availableSpace <= 0)
             {
                 continue;
             }
 
-            int nAmountToAdd = Mathf.Min(nRemainingQuantity, nAvailableSpace);
+            int amountToAdd = Mathf.Min(remainingQuantity, availableSpace);
 
-            inventoryItem.AddQuantity(nAmountToAdd);
+            inventoryItem.AddQuantity(amountToAdd);
 
-            nRemainingQuantity -= nAmountToAdd;
+            remainingQuantity -= amountToAdd;
 
-            if (nRemainingQuantity <= 0)
+            if (remainingQuantity <= 0)
             {
                 OnInventoryChanged?.Invoke();
                 return true;
@@ -96,13 +156,13 @@ public class Inventory : MonoBehaviour
                 continue;
             }
 
-            int nAmountToAdd = Mathf.Min(nRemainingQuantity, dataItem.MaxStackSize);
+            int nAmountToAdd = Mathf.Min(remainingQuantity, dataItem.MaxStackSize);
 
             inventorySlot.SetItem(new InventoryItem(dataItem, nAmountToAdd));
 
-            nRemainingQuantity -= nAmountToAdd;
+            remainingQuantity -= nAmountToAdd;
 
-            if (nRemainingQuantity <= 0)
+            if (remainingQuantity <= 0)
             {
                 OnInventoryChanged?.Invoke();
                 return true;
@@ -111,7 +171,7 @@ public class Inventory : MonoBehaviour
 
         OnInventoryChanged?.Invoke();
 
-        return nRemainingQuantity < nQuantity;
+        return remainingQuantity < quantity;
     }
 
     public bool RemoveItem(int nSlotIndex, int nQuantity = 1)

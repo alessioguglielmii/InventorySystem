@@ -641,18 +641,6 @@ PrefabInstance:
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
       objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
       value: medieval_chest (8)
@@ -1521,18 +1509,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -4406,18 +4382,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -15392,18 +15356,6 @@ PrefabInstance:
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
       objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
       value: medieval_chest (9)
@@ -15544,18 +15496,6 @@ PrefabInstance:
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
       objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
       value: medieval_chest (3)
@@ -15695,18 +15635,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -17422,18 +17350,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -20118,18 +20034,6 @@ PrefabInstance:
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
       objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
       value: medieval_chest
@@ -21094,18 +20998,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -22243,18 +22135,6 @@ PrefabInstance:
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
       objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
       value: medieval_chest (10)
@@ -22985,18 +22865,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -24761,18 +24629,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -27573,21 +27429,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1453532458070354348, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
       objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
+    - target: {fileID: 5468865518398911764, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
@@ -31446,18 +31298,6 @@ PrefabInstance:
     - target: {fileID: 2795635637836975378, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.0038374397
-      objectReference: {fileID: 0}
-    - target: {fileID: 4934960185931244819, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541270587225645268, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 6991584043661218570, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 7262066108415570987, guid: 2168b773fd0995f49b93724f04c821f8, type: 3}
       propertyPath: m_Name
