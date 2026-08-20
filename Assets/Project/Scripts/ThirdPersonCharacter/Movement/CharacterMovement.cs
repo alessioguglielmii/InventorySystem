@@ -17,6 +17,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float m_rotationSpeed;
     [SerializeField] private GameObject m_weaponMesh;
     [SerializeField] private float m_invisibilityTime;
+    [SerializeField] private float m_coneAngle = 60.0f;
 
     [SerializeField] private Transform m_bombSocket;
     [SerializeField] private GameObject m_bombObject;
@@ -39,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
     private float _rotationVelocity;
 
     private bool _attackOpen;
-    private bool _canPickUp;
+    private bool _canPickUp = false;
     private ItemPickup _itemPickUp;
 
     private Unlockable _unlockable;
@@ -52,6 +53,7 @@ public class CharacterMovement : MonoBehaviour
     private Dictionary<string, Material> _characterMaterials = new();
     private Material _weaponMaterial;
 
+    private bool _isInvisible;
     private float _invisibilityCurrentTime;
 
     private bool _throwingBomb = false;
@@ -108,14 +110,22 @@ public class CharacterMovement : MonoBehaviour
         OrientCharacterToCamera();
         UpdateAnimator();
 
-        if (_invisibilityCurrentTime > 0)
+        if (_isInvisible)
         {
-            _invisibilityCurrentTime -= Time.deltaTime;
+            if (_invisibilityCurrentTime > 0)
+            {
+                _invisibilityCurrentTime -= Time.deltaTime;
+            }
+            else
+            {
+                _invisibilityCurrentTime = 0;
+                EndInvisibility();
+            }
         }
-        else
+
+        if (_itemPickUp != null)
         {
-            _invisibilityCurrentTime = 0;
-            EndInvisibility();
+            _canPickUp = IsTargetInFront(_itemPickUp.transform);
         }
     }
 
@@ -169,7 +179,7 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        if (!_canPickUp || _itemPickUp == null)
+        if (_itemPickUp == null || !_canPickUp)
         {
             return;
         }
@@ -237,7 +247,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (other.CompareTag("Inventory Item"))
         {
-            _canPickUp = true;
             _itemPickUp = other.GetComponent<ItemPickup>();
         }
 
@@ -279,6 +288,22 @@ public class CharacterMovement : MonoBehaviour
                 _unlockable = null;
             }
         }
+    }
+
+    public bool IsTargetInFront(Transform target)
+    {
+        Vector3 forward = transform.forward;
+        Vector3 directionToTarget = target.position - transform.position;
+
+        forward.y = 0f;
+        directionToTarget.y = 0f;
+
+        forward.Normalize();
+        directionToTarget.Normalize();
+
+        float angle = Vector3.Angle(forward, directionToTarget);
+
+        return angle <= m_coneAngle * 0.5f;
     }
 
     public void OnAttackOpen()
@@ -392,6 +417,8 @@ public class CharacterMovement : MonoBehaviour
 
     public void StartInvisibility(Material invisibilityMaterial)
     {
+        _isInvisible = true;
+
         foreach (Transform child in gameObject.transform)
         {
             SkinnedMeshRenderer meshRenderer = child.GetComponent<SkinnedMeshRenderer>();
@@ -418,6 +445,8 @@ public class CharacterMovement : MonoBehaviour
 
     public void EndInvisibility()
     {
+        _isInvisible = false;
+
         foreach (Transform child in gameObject.transform)
         {
             SkinnedMeshRenderer meshRenderer = child.GetComponent<SkinnedMeshRenderer>();

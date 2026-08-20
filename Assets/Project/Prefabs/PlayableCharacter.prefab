@@ -853,12 +853,14 @@ MonoBehaviour:
   m_walkSpeed: 2
   m_runSpeed: 6
   m_acceleration: 4
+  m_rotationSmoothTime: 0.15
   m_characterController: {fileID: 7693210094893625575}
   m_animator: {fileID: 347287568567726803}
   m_cameraPivot: {fileID: 3709841666093319935}
   m_rotationSpeed: 270
   m_weaponMesh: {fileID: 452272172686190779}
   m_invisibilityTime: 15
+  m_coneAngle: 60
   m_bombSocket: {fileID: 441712938334299782}
   m_bombObject: {fileID: 1034371358810753872, guid: 43eaa12b7e941ab42860c6c88f229322, type: 3}
   m_bombForce: 30
