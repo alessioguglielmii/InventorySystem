@@ -717,7 +717,8 @@ MonoBehaviour:
   m_audioSource: {fileID: 6370921323969452742}
   m_toggleClip: {fileID: 8300000, guid: 9f15734b291578a43932779f932264b2, type: 3}
   m_slotSelectedClip: {fileID: 8300000, guid: 5c62937253145624488f0befb44985b4, type: 3}
-  m_buttonUsePressedClip: {fileID: 8300000, guid: 5bbdcb741bcc5df48bb4f6f096c3e0a2, type: 3}
+  m_buttonUsePressedSuccessClip: {fileID: 8300000, guid: 5bbdcb741bcc5df48bb4f6f096c3e0a2, type: 3}
+  m_buttonUsePressedFailClip: {fileID: 8300000, guid: 5c450b213d14879469557f22561e812c, type: 3}
 --- !u!1001 &2184712698178978560
 PrefabInstance:
   m_ObjectHideFlags: 0

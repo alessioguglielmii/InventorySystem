@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8361198579080426536}
   - component: {fileID: 2431280750148469261}
   - component: {fileID: 1322530798160733583}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InvisibilitySphere
   m_TagString: Inventory Item
   m_Icon: {fileID: 0}
@@ -148,5 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   m_dataItem: {fileID: 11400000, guid: eef366a2fdcb3944e99c9ab96a357833, type: 2}
-  m_positionOffset: 5
-  m_positionVelocity: 2.5
+  m_floatingHeight: 0.25
+  m_floatingSpeed: 1.5
+  m_rotationSpeed: 60

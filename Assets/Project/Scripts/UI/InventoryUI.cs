@@ -17,7 +17,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip m_toggleClip;
     [SerializeField] private AudioClip m_slotSelectedClip;
-    [SerializeField] private AudioClip m_buttonUsePressedClip;
+    [SerializeField] private AudioClip m_buttonUsePressedSuccessClip;
+    [SerializeField] private AudioClip m_buttonUsePressedFailClip;
 
     private readonly List<InventorySlotUI> _listSlots = new();
 
@@ -168,14 +169,21 @@ public class InventoryUI : MonoBehaviour
 
         bool bUsed = m_inventory.UseItem(_selectedSlotIndex, goTarget);
 
-        if (m_audioSource != null && m_buttonUsePressedClip != null)
-        {
-            m_audioSource.PlayOneShot(m_buttonUsePressedClip);
-        }        
-
         if (bUsed)
         {
             DeselectSlot();
+
+            if (m_audioSource != null && m_buttonUsePressedSuccessClip != null)
+            {
+                m_audioSource.PlayOneShot(m_buttonUsePressedSuccessClip);
+            }
+        }
+        else
+        {
+            if (m_audioSource != null && m_buttonUsePressedFailClip != null)
+            {
+                m_audioSource.PlayOneShot(m_buttonUsePressedFailClip);
+            }
         }
     }
 
@@ -276,14 +284,6 @@ public class InventoryUI : MonoBehaviour
         if (m_audioSource != null && m_slotSelectedClip != null)
         {
             m_audioSource.PlayOneShot(m_slotSelectedClip);
-        }
-    }
-
-    public void PlayUseButtonPressedClip()
-    {
-        if (m_audioSource != null && m_buttonUsePressedClip != null)
-        {
-            m_audioSource.PlayOneShot(m_buttonUsePressedClip);
         }
     }
 }

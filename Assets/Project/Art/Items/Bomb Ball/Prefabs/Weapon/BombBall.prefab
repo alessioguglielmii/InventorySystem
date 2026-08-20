@@ -12,6 +12,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: BombBall
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f0760c5a0c9339543b315c1283f33016, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: f0760c5a0c9339543b315c1283f33016, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: f0760c5a0c9339543b315c1283f33016, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: f0760c5a0c9339543b315c1283f33016, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f0760c5a0c9339543b315c1283f33016, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2
