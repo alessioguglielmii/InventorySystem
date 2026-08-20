@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -19,6 +20,9 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private AudioClip m_slotSelectedClip;
     [SerializeField] private AudioClip m_buttonUsePressedSuccessClip;
     [SerializeField] private AudioClip m_buttonUsePressedFailClip;
+    [SerializeField] private ColorPalette m_colorPalette;
+
+    [HideInInspector] public bool isDragging = false;
 
     private readonly List<InventorySlotUI> _listSlots = new();
 
@@ -52,6 +56,7 @@ public class InventoryUI : MonoBehaviour
         CreateSlots();
 
         m_inventory.OnInventoryChanged += Refresh;
+        m_inventory.OnInventorySlotMoved += UpdateSelectedSlot;
         m_inventory.OnInventoryToggle += Toggle;
 
         if (m_buttonUse != null && m_textUse != null)
@@ -59,6 +64,27 @@ public class InventoryUI : MonoBehaviour
             m_buttonUse.onClick.AddListener(UseSelectedItem);
             m_buttonUse.gameObject.GetComponent<Image>().enabled = false;
             m_textUse.gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
+
+            m_textUse.color = m_colorPalette.Text.Normal;
+
+            EventTrigger trigger = m_buttonUse.gameObject.GetComponent<EventTrigger>();
+
+            if (trigger == null)
+            {
+                trigger = m_buttonUse.gameObject.AddComponent<EventTrigger>();
+            }
+
+            EventTrigger.Entry pointerEnter = new EventTrigger.Entry();
+            pointerEnter.eventID = EventTriggerType.PointerEnter;
+            pointerEnter.callback.AddListener((data) => UseButtonPonterEnter());
+
+            trigger.triggers.Add(pointerEnter);
+
+            EventTrigger.Entry pointerExit = new EventTrigger.Entry();
+            pointerExit.eventID = EventTriggerType.PointerExit;
+            pointerExit.callback.AddListener((data) => UseButtonPonterExit());
+
+            trigger.triggers.Add(pointerExit);
         }
 
         Refresh();
@@ -69,6 +95,8 @@ public class InventoryUI : MonoBehaviour
         if (m_inventory != null)
         {
             m_inventory.OnInventoryChanged -= Refresh;
+            m_inventory.OnInventorySlotMoved -= UpdateSelectedSlot;
+            m_inventory.OnInventoryToggle -= Toggle;
         }
 
         if (m_buttonUse != null)
@@ -101,7 +129,24 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public void SelectSlot(int nSlotIndex)
+    private void UpdateSelectedSlot(int sourceSlotIndex, int targetSlotIndex)
+    {
+        if (_selectedSlotIndex >= 0)
+        {
+            if (_selectedSlotIndex == sourceSlotIndex)
+            {
+                DeselectSlot();
+                SelectSlot(targetSlotIndex, true);
+            }
+            else if(_selectedSlotIndex == targetSlotIndex)
+            {
+                DeselectSlot();
+                SelectSlot(sourceSlotIndex, true);
+            }
+        }
+    }
+
+    public void SelectSlot(int nSlotIndex, bool moved)
     {
         if (nSlotIndex < 0 || nSlotIndex >= m_inventory.Capacity)
         {
@@ -118,12 +163,21 @@ public class InventoryUI : MonoBehaviour
 
         if (_selectedSlotIndex >= 0 && _selectedSlotIndex < _listSlots.Count)
         {
-            _listSlots[_selectedSlotIndex].SetSelected(false);
+            _listSlots[_selectedSlotIndex].SetSelected(false, moved);
+        }
+
+        if (_selectedSlotIndex >= 0 && _selectedSlotIndex == nSlotIndex)
+        {
+            DeselectSlot();
+
+            PlaySlotSelectedClip();
+
+            return;
         }
 
         _selectedSlotIndex = nSlotIndex;
 
-        _listSlots[_selectedSlotIndex].SetSelected(true);
+        _listSlots[_selectedSlotIndex].SetSelected(true, moved);
 
         if (m_buttonUse != null && m_textUse != null)
         {
@@ -138,7 +192,7 @@ public class InventoryUI : MonoBehaviour
     {
         if (_selectedSlotIndex >= 0 && _selectedSlotIndex < _listSlots.Count)
         {
-            _listSlots[_selectedSlotIndex].SetSelected(false);
+            _listSlots[_selectedSlotIndex].SetSelected(false, false);
         }
 
         _selectedSlotIndex = -1;
@@ -185,6 +239,16 @@ public class InventoryUI : MonoBehaviour
                 m_audioSource.PlayOneShot(m_buttonUsePressedFailClip);
             }
         }
+    }
+
+    private void UseButtonPonterEnter()
+    {
+        m_textUse.color = m_colorPalette.Text.Hovered;
+    }
+
+    private void UseButtonPonterExit()
+    {
+        m_textUse.color = m_colorPalette.Text.Normal;
     }
 
     private GameObject GetItemTarget(ItemData itemData)
@@ -258,6 +322,11 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
+        if (isDragging)
+        {
+            return;
+        }
+
         InventorySlot invSlot = m_inventory.Slots[nSlotIndex];
 
         if (invSlot.IsEmpty)
@@ -266,9 +335,11 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        string strItemName = invSlot.Item.Data.ItemName;
+        string itemName = invSlot.Item.Data.ItemName;
+        string itemQuantity = invSlot.Item.Quantity.ToString();
+        string itemMaxStackSize = invSlot.Item.Data.MaxStackSize.ToString();
 
-        m_itemTooltip.Show(strItemName, new Vector2(position.x, position.y), invertPivot);
+        m_itemTooltip.Show(itemName, itemQuantity, itemMaxStackSize, new Vector2(position.x, position.y), invertPivot);
     }
 
     public void HideTooltip()

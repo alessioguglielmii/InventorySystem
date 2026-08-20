@@ -5,7 +5,12 @@ using UnityEngine.UIElements;
 public class ItemTooltipUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_textItemName;
+    [SerializeField] private TMP_Text m_textItemQuantity;
+    [SerializeField] private TMP_Text m_textItemMaxStackSize;
     [SerializeField] private Vector2 m_offset = new Vector2(-2.0f, -2.0f);
+
+    private const string QUANTITYLABEL = "QUANTITY: ";
+    private const string MAXSTACKSIZELABEL = "MAX STACK SIZE: ";
 
     private Vector2 _pivot;
     private Vector2 _invertedPivot;
@@ -22,11 +27,21 @@ public class ItemTooltipUI : MonoBehaviour
         Hide();
     }
 
-    public void Show(string itemName, Vector2 screenPosition, bool invertPivot)
+    public void Show(string itemName, string itemQuantity, string itemMaxStackSize, Vector2 screenPosition, bool invertPivot)
     {
         if (m_textItemName != null)
         {
             m_textItemName.text = itemName;
+        }
+
+        if (m_textItemQuantity != null)
+        {
+            m_textItemQuantity.text = QUANTITYLABEL + itemQuantity;
+        }
+
+        if (m_textItemMaxStackSize != null)
+        {
+            m_textItemMaxStackSize.text = MAXSTACKSIZELABEL + itemMaxStackSize;
         }
 
         gameObject.SetActive(true);

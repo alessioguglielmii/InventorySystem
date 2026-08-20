@@ -23,6 +23,8 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
         if (inventoryUI != null)
         {
             inventoryUI.HideTooltip();
+
+            inventoryUI.isDragging = true;
         }
 
         if (m_slotUI == null)
@@ -41,6 +43,8 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
         {
             m_trDragObject.position = eventData.position;
         }
+
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -56,6 +60,13 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
     public void OnEndDrag(PointerEventData eventData)
     {
         DestroyDragObject();
+
+        InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
+
+        if (inventoryUI != null)
+        {
+            inventoryUI.isDragging = false;
+        }
     }
 
     public void OnDrop(PointerEventData eventData)

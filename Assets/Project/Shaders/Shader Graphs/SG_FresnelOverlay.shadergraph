@@ -11,9 +11,6 @@
         },
         {
             "m_Id": "266d82eac69f4b4599825133c7b512cd"
-        },
-        {
-            "m_Id": "d667677db4644e6794630134cbeb7cfd"
         }
     ],
     "m_Keywords": [],
@@ -286,9 +283,6 @@
         },
         {
             "m_Id": "266d82eac69f4b4599825133c7b512cd"
-        },
-        {
-            "m_Id": "d667677db4644e6794630134cbeb7cfd"
         }
     ]
 }
@@ -1361,50 +1355,6 @@
     "m_Property": {
         "m_Id": "266d82eac69f4b4599825133c7b512cd"
     }
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "d667677db4644e6794630134cbeb7cfd",
-    "m_Guid": {
-        "m_GuidSerialized": "b14716f0-e734-4f55-8f1e-d27a2dc9918b"
-    },
-    "promotedFromAssetID": "",
-    "promotedFromCategoryName": "",
-    "promotedOrdering": -1,
-    "m_Name": "Emission Intensity",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Emission Intensity",
-    "m_DefaultReferenceName": "_Emission_Intensity",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_DismissedVersion": 0,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_PerRendererData": false,
-    "m_customAttributes": [],
-    "m_Value": 3.0,
-    "m_FloatType": 0,
-    "m_LiteralFloatMode": false,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    },
-    "m_SliderType": 0,
-    "m_SliderPower": 3.0,
-    "m_EnumType": 0,
-    "m_CSharpEnumString": "",
-    "m_EnumNames": [
-        "Default"
-    ],
-    "m_EnumValues": [
-        0
-    ]
 }
 
 {

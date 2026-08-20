@@ -9,16 +9,19 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
     [SerializeField] private Image m_imageIcon;
     [SerializeField] private TMP_Text m_textQuantity;
     [SerializeField] private GameObject m_goSelection;
+    [SerializeField] private ColorPalette m_colorPalette;
 
     private Inventory _inventory;
-    private int _nSlotIndex;
+    private int _slotIndex;
+    private bool _isPointerEnter = false;
+    private bool _isSelected = false;
 
-    public void Initialize(Inventory inventory, int nSlotIndex)
+    public void Initialize(Inventory inventory, int slotIndex)
     {
         _inventory = inventory;
-        _nSlotIndex = nSlotIndex;
+        _slotIndex = slotIndex;
 
-        SetSelected(false);
+        SetSelected(false, false);
 
         Clear();
     }
@@ -46,12 +49,12 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         m_textQuantity.text = string.Empty;
         m_textQuantity.enabled = false;
 
-        SetSelected(false);
+        SetSelected(false, false);
     }
 
     public int GetSlotIndex()
     {
-        return _nSlotIndex;
+        return _slotIndex;
     }
 
     public Inventory GetInventory()
@@ -66,7 +69,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     public bool HasItem()
     {
-        return _inventory != null && !_inventory.Slots[_nSlotIndex].IsEmpty;
+        return _inventory != null && !_inventory.Slots[_slotIndex].IsEmpty;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -88,17 +91,35 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
             return;
         }
 
-        inventoryUI.SelectSlot(_nSlotIndex);
+        inventoryUI.SelectSlot(_slotIndex, false);
     }
 
-    public void SetSelected(bool bSelected)
+    public void SetSelected(bool selected, bool moved)
     {
         if (m_goSelection != null)
         {
-            m_goSelection.SetActive(bSelected);
+            m_goSelection.SetActive(selected);
         }
 
-        if (bSelected)
+        _isSelected = selected;
+
+        if (selected)
+        {
+            m_textQuantity.color = m_colorPalette.Text.Hovered;
+        }
+        else
+        {
+            if (_isPointerEnter)
+            {
+                m_textQuantity.color = m_colorPalette.Text.Hovered;
+            }
+            else
+            {
+                m_textQuantity.color = m_colorPalette.Text.Normal;
+            }
+        }
+
+        if (selected && !moved)
         {
             InventoryUI inventoryUI = GetComponentInParent<InventoryUI>();
 
@@ -106,8 +127,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
             {
                 inventoryUI.PlaySlotSelectedClip();
             }
-        } 
-        
+        }     
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -133,13 +153,17 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         Vector3 position = arrCorners[2];
         bool invertPivot = false;
 
-        if (_nSlotIndex >= 10)
+        if (_slotIndex >= 10)
         {
             position = arrCorners[1];
             invertPivot = true;
         }
 
-        inventoryUI.ShowTooltip(_nSlotIndex, position, invertPivot);
+        _isPointerEnter = true;
+
+        m_textQuantity.color = m_colorPalette.Text.Hovered;
+
+        inventoryUI.ShowTooltip(_slotIndex, position, invertPivot);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -149,6 +173,13 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
         if (inventoryUI == null)
         {
             return;
+        }
+
+        _isPointerEnter = false;
+
+        if (!_isSelected)
+        {
+            m_textQuantity.color = m_colorPalette.Text.Normal;
         }
 
         inventoryUI.HideTooltip();

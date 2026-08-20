@@ -22,16 +22,18 @@ public class ItemPickup : MonoBehaviour
         FloatItem();
     }
 
-    public void CollectItem(Inventory inventory)
+    public bool CollectItem(Inventory inventory)
     {
         bool bAdded = inventory.AddItem(m_dataItem);
 
         if (!bAdded)
         {
-            return;
+            return false;
         }
 
         Destroy(gameObject);
+
+        return true;
     }
 
     private void FloatItem()

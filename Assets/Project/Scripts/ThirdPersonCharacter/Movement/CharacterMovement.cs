@@ -42,6 +42,9 @@ public class CharacterMovement : MonoBehaviour
     private Unlockable _unlockable;
 
     private bool _canMove = true;
+    private bool _isAttacking = false;
+    private bool _isGrabbing = false;
+    private bool _isThrowing = false;
 
     private Dictionary<string, Material> _characterMaterials = new();
     private Material _weaponMaterial;
@@ -149,16 +152,18 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnAttackInput(InputAction.CallbackContext context)
     {
-        if (_canMove)
+        if (_canMove && !_isGrabbing && !_isThrowing)
         {
+            _isAttacking = true;
             m_animator.SetTrigger("Attack");
         }
     }
 
     private void OnPickUpInput(InputAction.CallbackContext context)
     {
-        if (_canMove)
+        if (_canMove && !_isAttacking && !_isThrowing)
         {
+            _isGrabbing = true;
             m_animator.SetTrigger("PickUp");
         }
     }
@@ -260,6 +265,11 @@ public class CharacterMovement : MonoBehaviour
         _attackOpen = false;
     }
 
+    public void OnAttackEnded()
+    {
+        _isAttacking = false;
+    }
+
     public void OnGrabItem()
     {
         if (_canPickUp && _itemPickUp != null)
@@ -271,10 +281,18 @@ public class CharacterMovement : MonoBehaviour
                 return;
             }
 
-            _itemPickUp.CollectItem(_inventory);
+            bool pickedUp = _itemPickUp.CollectItem(_inventory);
 
-            m_audioSource.PlayOneShot(m_itemGrabClip);
+            if (m_audioSource != null && pickedUp)
+            {
+                m_audioSource.PlayOneShot(m_itemGrabClip);
+            }
         }
+    }
+
+    public void OnGrabEnded()
+    {
+        _isGrabbing = false;
     }
 
     public void OnMoveChanged()
@@ -313,6 +331,8 @@ public class CharacterMovement : MonoBehaviour
         Bomb bomb = _goBomb.GetComponent<Bomb>();
         bomb.bombSocket = m_bombSocket;
 
+        _isThrowing = true;
+
         m_animator.SetTrigger("Throw");
 
         _throwingBomb = true;
@@ -343,6 +363,11 @@ public class CharacterMovement : MonoBehaviour
         }
 
         _throwingBomb = false;
+    }
+
+    public void OnThrowBombEnded()
+    {
+        _isThrowing = false;
     }
 
     public void StartInvisibility(Material invisibilityMaterial)

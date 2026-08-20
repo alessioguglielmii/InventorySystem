@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     public int Capacity => m_nCapacity;
 
     public event Action OnInventoryChanged;
+    public event Action<int, int> OnInventorySlotMoved;
     public event Action OnInventoryToggle;
 
     private void Awake()
@@ -144,21 +145,21 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    public bool MoveItem(int nSourceSlotIndex, int nTargetSlotIndex)
+    public bool MoveItem(int sourceSlotIndex, int targetSlotIndex)
     {
-        if (!IsValidSlot(nSourceSlotIndex) || !IsValidSlot(nTargetSlotIndex))
+        if (!IsValidSlot(sourceSlotIndex) || !IsValidSlot(targetSlotIndex))
         {
             return false;
         }
 
-        if (nSourceSlotIndex == nTargetSlotIndex)
+        if (sourceSlotIndex == targetSlotIndex)
         {
             return false;
         }
 
-        InventorySlot invSourceSlot = m_listSlots[nSourceSlotIndex];
+        InventorySlot invSourceSlot = m_listSlots[sourceSlotIndex];
 
-        InventorySlot invTargetSlot = m_listSlots[nTargetSlotIndex];
+        InventorySlot invTargetSlot = m_listSlots[targetSlotIndex];
 
         if (invSourceSlot.IsEmpty)
         {
@@ -173,6 +174,7 @@ public class Inventory : MonoBehaviour
             invSourceSlot.Clear();
 
             OnInventoryChanged?.Invoke();
+            OnInventorySlotMoved?.Invoke(sourceSlotIndex, targetSlotIndex);
 
             return true;
         }
@@ -190,10 +192,10 @@ public class Inventory : MonoBehaviour
                 return false;
             }
 
-            int nAmountToMove = Mathf.Min(invSourceItem.Quantity, nAvailableSpace);
+            int amountToMove = Mathf.Min(invSourceItem.Quantity, nAvailableSpace);
 
-            invTargetItem.AddQuantity(nAmountToMove);
-            invSourceItem.RemoveQuantity(nAmountToMove);
+            invTargetItem.AddQuantity(amountToMove);
+            invSourceItem.RemoveQuantity(amountToMove);
 
             if (invSourceItem.Quantity <= 0)
             {
@@ -201,6 +203,7 @@ public class Inventory : MonoBehaviour
             }
 
             OnInventoryChanged?.Invoke();
+            OnInventorySlotMoved?.Invoke(sourceSlotIndex, targetSlotIndex);
 
             return true;
         }
@@ -211,6 +214,7 @@ public class Inventory : MonoBehaviour
         invTargetSlot.SetItem(tempItem);
 
         OnInventoryChanged?.Invoke();
+        OnInventorySlotMoved?.Invoke(sourceSlotIndex, targetSlotIndex);
 
         return true;
     }
