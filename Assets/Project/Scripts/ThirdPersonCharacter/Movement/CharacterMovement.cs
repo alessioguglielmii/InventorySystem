@@ -10,6 +10,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float m_walkSpeed;
     [SerializeField] private float m_runSpeed;
     [SerializeField] private float m_acceleration;
+    [SerializeField] private float m_rotationSmoothTime = 0.15f;
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private Animator m_animator;
     [SerializeField] private Transform m_cameraPivot;
@@ -34,6 +35,8 @@ public class CharacterMovement : MonoBehaviour
     private float _speedMagnitude;
 
     private Vector2 _moveInput;
+
+    private float _rotationVelocity;
 
     private bool _attackOpen;
     private bool _canPickUp;
@@ -204,20 +207,24 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        Vector3 _cameraForward = m_cameraPivot.forward;
+        Vector3 cameraForward = m_cameraPivot.forward;
 
-        _cameraForward.y = 0f;
+        cameraForward.y = 0.0f;
 
-        if (_cameraForward.sqrMagnitude < 0.001f)
+        if (cameraForward.sqrMagnitude < 0.001f)
         {
             return;
         }
 
-        _cameraForward.Normalize();
+        cameraForward.Normalize();
 
-        Quaternion _targetRotation = Quaternion.LookRotation(_cameraForward);
+        float targetAngle = Mathf.Atan2(cameraForward.x, cameraForward.z) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, 1f - Mathf.Exp(-m_rotationSpeed * Time.deltaTime));
+        float currentAngle = transform.eulerAngles.y;
+
+        float newAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref _rotationVelocity, m_rotationSmoothTime);
+
+        transform.rotation = Quaternion.Euler(0.0f, newAngle, 0.0f);
     }
 
     private void UpdateAnimator()
