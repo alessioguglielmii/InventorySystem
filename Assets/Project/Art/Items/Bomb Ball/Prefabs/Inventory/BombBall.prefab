@@ -171,6 +171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   m_dataItem: {fileID: 11400000, guid: f8c8887653249d5479d5eaa5f0f8c4d2, type: 2}
-  m_floatingHeight: 0.25
+  m_floatingHeight: 0.125
   m_floatingSpeed: 1.5
   m_rotationSpeed: 60

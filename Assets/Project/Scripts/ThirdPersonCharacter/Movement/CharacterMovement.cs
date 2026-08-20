@@ -110,23 +110,8 @@ public class CharacterMovement : MonoBehaviour
         OrientCharacterToCamera();
         UpdateAnimator();
 
-        if (_isInvisible)
-        {
-            if (_invisibilityCurrentTime > 0)
-            {
-                _invisibilityCurrentTime -= Time.deltaTime;
-            }
-            else
-            {
-                _invisibilityCurrentTime = 0;
-                EndInvisibility();
-            }
-        }
-
-        if (_itemPickUp != null)
-        {
-            _canPickUp = IsTargetInFront(_itemPickUp.transform);
-        }
+        ManageVisibility();
+        ManageGrab();
     }
 
     private void OnAnimatorMove()
@@ -340,6 +325,14 @@ public class CharacterMovement : MonoBehaviour
         _isGrabbing = false;
     }
 
+    private void ManageGrab()
+    {
+        if (_itemPickUp != null)
+        {
+            _canPickUp = IsTargetInFront(_itemPickUp.transform);
+        }
+    }
+
     public void OnMoveChanged()
     {
         _canMove = !_canMove;
@@ -471,6 +464,23 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+
+    private void ManageVisibility()
+    {
+
+        if (_isInvisible)
+        {
+            if (_invisibilityCurrentTime > 0)
+            {
+                _invisibilityCurrentTime -= Time.deltaTime;
+            }
+            else
+            {
+                _invisibilityCurrentTime = 0;
+                EndInvisibility();
+            }
+        }
+    }
     public void OnFootSound()
     {
         int audioIndex = Random.Range(0, m_footspepsClips.Length);
