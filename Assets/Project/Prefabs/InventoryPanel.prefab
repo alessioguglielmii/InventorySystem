@@ -65,10 +65,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use Item
+  m_text: 'USE ITEM
+
+'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2525dc676f348ea4886f0d2323afd920, type: 2}
-  m_sharedMaterial: {fileID: -9222733356421493473, guid: 2525dc676f348ea4886f0d2323afd920, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c2bdeb932c2cdbd4387401ee214353d8, type: 2}
+  m_sharedMaterial: {fileID: -6200833350967171398, guid: c2bdeb932c2cdbd4387401ee214353d8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -98,7 +100,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

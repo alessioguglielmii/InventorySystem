@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8036a4c0d78c434894c52bdd4a2d4b7, type: 3}
   m_Name: Invisibility
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  m_stringItemName: Invisibility
+  m_stringItemName: INVISIBILITY
   m_spriteIcon: {fileID: 21300000, guid: 7c0d2ca8ff827b848862befb5fe16872, type: 3}
   m_nMaxStackSize: 8
   m_itemEffect: {fileID: 11400000, guid: 4df72bde3495c1d4683f4da661d39432, type: 2}

@@ -17,6 +17,11 @@ public class ExplosionEffect : ItemEffect
             return false;
         }
 
+        if (characterMovement.IsThrowing)
+        {
+            return false;
+        }
+
         characterMovement.ThrowBomb();
 
         return true;

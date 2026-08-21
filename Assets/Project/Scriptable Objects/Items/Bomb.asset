@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8036a4c0d78c434894c52bdd4a2d4b7, type: 3}
   m_Name: Bomb
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  m_stringItemName: Bomb
+  m_stringItemName: BOMB
   m_spriteIcon: {fileID: 21300000, guid: 6d762a24365b68e47843a96944d1b12a, type: 3}
   m_nMaxStackSize: 5
   m_itemEffect: {fileID: 11400000, guid: e95115c4ee48297459ac73c0598dcc66, type: 2}

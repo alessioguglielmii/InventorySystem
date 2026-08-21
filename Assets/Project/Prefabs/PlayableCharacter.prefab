@@ -860,7 +860,7 @@ MonoBehaviour:
   m_rotationSpeed: 270
   m_weaponMesh: {fileID: 452272172686190779}
   m_invisibilityTime: 15
-  m_coneAngle: 60
+  m_coneAngle: 75
   m_bombSocket: {fileID: 441712938334299782}
   m_bombObject: {fileID: 1034371358810753872, guid: 43eaa12b7e941ab42860c6c88f229322, type: 3}
   m_bombForce: 30

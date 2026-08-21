@@ -8,12 +8,13 @@ public class Bomb : MonoBehaviour
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip m_explosionClip;
 
-    [HideInInspector] public bool isThrown = false;
     [HideInInspector] public Transform bombSocket;
+
+    private bool _isThrown = false;
 
     private void Update()
     {
-        if (!isThrown)
+        if (!_isThrown)
         {
             transform.position = bombSocket.position;
             transform.rotation = bombSocket.rotation;
@@ -22,9 +23,15 @@ public class Bomb : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Destroy(gameObject, 0.75f);
+    }
+
+    private void OnDestroy()
+    {
         if (m_explosionEffect != null)
         {
-            Instantiate(m_explosionEffect, transform.position, transform.rotation);
+            GameObject explosionEffect = Instantiate(m_explosionEffect, transform.position, transform.rotation);
+            Destroy(explosionEffect, 2.5f);
         }
 
         if (m_audioSource != null && m_explosionClip != null)
@@ -54,13 +61,36 @@ public class Bomb : MonoBehaviour
         foreach (Collider collider in colliders)
         {
             Chest chest = collider.gameObject.GetComponent<Chest>();
+            Bomb otherBomb = collider.gameObject.GetComponent<Bomb>();
 
             if (chest != null)
             {
                 chest.DestroyChest();
             }
-        }
 
-        Destroy(gameObject);
+            if (otherBomb != null)
+            {
+                Destroy(otherBomb);
+            }
+        }
+    }
+
+    public void BombThrowing(float bombForce, float bombUpwardForce)
+    {
+        _isThrown = true;
+
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+        if (rigidbody != null)
+        {
+            rigidbody.linearVelocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
+
+            Vector3 throwDirection = transform.forward;
+            throwDirection.y = bombUpwardForce;
+            throwDirection.Normalize();
+
+            rigidbody.AddForce(throwDirection * bombForce, ForceMode.Impulse);
+        }
     }
 }

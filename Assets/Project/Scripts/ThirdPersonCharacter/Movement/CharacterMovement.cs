@@ -49,6 +49,7 @@ public class CharacterMovement : MonoBehaviour
     private bool _isAttacking = false;
     private bool _isGrabbing = false;
     private bool _isThrowing = false;
+    private bool _canDoAction = true;
 
     private Dictionary<string, Material> _characterMaterials = new();
     private Material _weaponMaterial;
@@ -61,6 +62,8 @@ public class CharacterMovement : MonoBehaviour
 
     public bool AttackOpen => _attackOpen;
     public Unlockable Unlockable => _unlockable;
+    public bool CanDoAction => _canDoAction;
+    public bool IsThrowing => _isThrowing;
 
     private void Start()
     {
@@ -112,6 +115,8 @@ public class CharacterMovement : MonoBehaviour
 
         ManageVisibility();
         ManageGrab();
+
+        _canDoAction = _canMove && !_isAttacking && !_isGrabbing && !_isThrowing;
     }
 
     private void OnAnimatorMove()
@@ -150,7 +155,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnAttackInput(InputAction.CallbackContext context)
     {
-        if (_canMove && !_isAttacking && !_isGrabbing && !_isThrowing)
+        if (_canDoAction)
         {
             _isAttacking = true;
             m_animator.SetTrigger("Attack");
@@ -159,7 +164,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnPickUpInput(InputAction.CallbackContext context)
     {
-        if (!_canMove || _isGrabbing || _isAttacking || _isThrowing)
+        if (!_canDoAction)
         {
             return;
         }
@@ -286,9 +291,9 @@ public class CharacterMovement : MonoBehaviour
         forward.Normalize();
         directionToTarget.Normalize();
 
-        float angle = Vector3.Angle(forward, directionToTarget);
+        float dot = Vector3.Dot(forward, directionToTarget);
 
-        return angle <= m_coneAngle * 0.5f;
+        return dot >= Mathf.Cos(m_coneAngle * 0.5f * Mathf.Deg2Rad);
     }
 
     public void OnAttackOpen()
@@ -349,7 +354,7 @@ public class CharacterMovement : MonoBehaviour
         {
             return;
         }
-
+        
         if (m_bombObject == null)
         {
             _throwingBomb = false;
@@ -379,25 +384,11 @@ public class CharacterMovement : MonoBehaviour
     public void OnThrowBomb()
     {
         Bomb bomb = _goBomb.GetComponent<Bomb>();
-        bomb.isThrown = true;
+        bomb.BombThrowing(m_bombForce, m_bombUpwardForce);
 
-        if(m_audioSource != null && m_bombThrowClip != null)
+        if (m_audioSource != null && m_bombThrowClip != null)
         {
             m_audioSource.PlayOneShot(m_bombThrowClip);
-        }        
-
-        Rigidbody rigidbody = _goBomb.GetComponent<Rigidbody>();
-
-        if (rigidbody != null)
-        {
-            rigidbody.linearVelocity = Vector3.zero;
-            rigidbody.angularVelocity = Vector3.zero;
-
-            Vector3 throwDirection = transform.forward;
-            throwDirection.y = m_bombUpwardForce;
-            throwDirection.Normalize();
-
-            rigidbody.AddForce(throwDirection * m_bombForce, ForceMode.Impulse);
         }
 
         _throwingBomb = false;

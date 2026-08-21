@@ -225,7 +225,10 @@ public class InventoryUI : MonoBehaviour
 
         if (bUsed)
         {
-            DeselectSlot();
+            if (invSlot.Item == null)
+            {
+                DeselectSlot();
+            }
 
             if (m_audioSource != null && m_buttonUsePressedSuccessClip != null)
             {
