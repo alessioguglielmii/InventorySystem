@@ -45,7 +45,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 7.5
-  m_Range: 5.5
+  m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -86,7 +86,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 35
+  m_BounceIntensity: 25
   m_ColorTemperature: 1950
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -355,6 +355,8 @@ MonoBehaviour:
   m_audioSource: {fileID: 6573437298126769584}
   m_pointLight: {fileID: 5029857641147669616}
   m_lightIntensity: 2
+  m_flickerSpeed: 4
+  m_flickerAmount: 0.3
 --- !u!1001 &1659142045286367153
 PrefabInstance:
   m_ObjectHideFlags: 0
