@@ -7,20 +7,20 @@ public class InventoryItem
     public ItemData Data { get; private set; }
     public int Quantity { get; private set; }
 
-    public InventoryItem(ItemData dataItem, int nQuantity = 1)
+    public InventoryItem(ItemData dataItem, int quantity = 1)
     {
         Data = dataItem;
-        Quantity = nQuantity;
+        Quantity = quantity;
     }
 
-    public void AddQuantity(int nAmount)
+    public void AddQuantity(int amount)
     {
-        Quantity += nAmount;
+        Quantity += amount;
     }
 
-    public void RemoveQuantity(int nAmount)
+    public void RemoveQuantity(int amount)
     {
-        Quantity -= nAmount;
+        Quantity -= amount;
     }
 
     public int GetAvailableSpace()

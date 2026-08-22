@@ -8,13 +8,13 @@ public class ItemData : ScriptableObject
     [SerializeField] private Sprite m_spriteIcon;
 
     [Header("Stack")]
-    [SerializeField] private int m_nMaxStackSize = 1;
+    [SerializeField] private int m_maxStackSize = 1;
 
     [Header("Effect")]
     [SerializeField] private ItemEffect m_itemEffect;
 
     public string ItemName => m_stringItemName;
     public Sprite Icon => m_spriteIcon;
-    public int MaxStackSize => m_nMaxStackSize;
+    public int MaxStackSize => m_maxStackSize;
     public ItemEffect Effect => m_itemEffect;
 }

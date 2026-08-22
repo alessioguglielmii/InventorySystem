@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    [Header("Effect")]
     [SerializeField] private float m_explosionRadius = 3.0f;
     [SerializeField] private GameObject m_explosionEffect;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip m_explosionClip;
 

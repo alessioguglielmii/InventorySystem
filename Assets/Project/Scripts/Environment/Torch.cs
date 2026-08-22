@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class Torch : MonoBehaviour
 {
-    [SerializeField] private AudioSource m_audioSource;
+    [Header("Light")]
     [SerializeField] private Light m_pointLight;
     [SerializeField] private float m_lightIntensity;
     [SerializeField] private float m_flickerSpeed = 4.0f;
     [SerializeField] private float m_flickerAmount = 0.3f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource m_audioSource;
 
     private float _noiseOffset;
     private Vector3 _initialPosition;

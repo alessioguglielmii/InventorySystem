@@ -4,13 +4,16 @@ using UnityEngine.UIElements;
 
 public class ItemTooltipUI : MonoBehaviour
 {
+    private const string QUANTITYLABEL = "QUANTITY: ";
+    private const string MAXSTACKSIZELABEL = "MAX STACK SIZE: ";
+
+    [Header("UI")]
     [SerializeField] private TMP_Text m_textItemName;
     [SerializeField] private TMP_Text m_textItemQuantity;
     [SerializeField] private TMP_Text m_textItemMaxStackSize;
-    [SerializeField] private Vector2 m_offset = new Vector2(-2.0f, -2.0f);
 
-    private const string QUANTITYLABEL = "QUANTITY: ";
-    private const string MAXSTACKSIZELABEL = "MAX STACK SIZE: ";
+    [Header("Pivot")]
+    [SerializeField] private Vector2 m_offset = new Vector2(-2.0f, -2.0f);
 
     private Vector2 _pivot;
     private Vector2 _invertedPivot;

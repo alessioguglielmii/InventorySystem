@@ -519,6 +519,7 @@ MonoBehaviour:
   m_endurance: 3
   m_breakEffect: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
   m_inventoryItem: {fileID: 0}
+  m_animator: {fileID: 1411479820518169035}
   m_audioSource: {fileID: 451832399149212243}
   m_chestHit: {fileID: 8300000, guid: 3acaeded9db67334da2651ac632f143c, type: 3}
   m_chestBreak: {fileID: 8300000, guid: a6d4fb02845790e47be3b55059ad4fb8, type: 3}

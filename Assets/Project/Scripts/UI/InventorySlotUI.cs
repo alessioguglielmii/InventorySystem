@@ -6,9 +6,12 @@ using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("UI")]
     [SerializeField] private Image m_imageIcon;
     [SerializeField] private TMP_Text m_textQuantity;
-    [SerializeField] private GameObject m_goSelection;
+    [SerializeField] private GameObject m_selection;
+
+    [Header("Library")]
     [SerializeField] private ColorPalette m_colorPalette;
 
     private Inventory _inventory;
@@ -96,9 +99,9 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     public void SetSelected(bool selected, bool moved)
     {
-        if (m_goSelection != null)
+        if (m_selection != null)
         {
-            m_goSelection.SetActive(selected);
+            m_selection.SetActive(selected);
         }
 
         _isSelected = selected;

@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class LongSword : MonoBehaviour
 {
-    [SerializeField] private int m_HitPower = 1;
+    [Header("Playable Character")]
     [SerializeField] private CharacterMovement m_wielder;
+
+    [Header("Effect")]
+    [SerializeField] private int m_HitPower = 1;    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -11,9 +14,9 @@ public class LongSword : MonoBehaviour
         {
             if (m_wielder != null && m_wielder.AttackOpen)
             {
-                Chest _chest = other.GetComponent<Chest>();
+                Chest chest = other.GetComponent<Chest>();
 
-                _chest.DamageChest(m_HitPower);
+                chest.DamageChest(m_HitPower);
             }
         }    
     }

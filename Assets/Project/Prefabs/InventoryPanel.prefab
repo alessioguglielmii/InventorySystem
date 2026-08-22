@@ -710,12 +710,12 @@ MonoBehaviour:
   m_inventory: {fileID: 0}
   m_characterMovement: {fileID: 0}
   m_characterCamera: {fileID: 0}
-  m_prefabSlot: {fileID: 3702172768017765567, guid: e1e115ff1086bca48a41d25333d24d69, type: 3}
-  m_trContainer: {fileID: 8919148072612862378}
-  m_animator: {fileID: -2462395955604248724}
+  m_container: {fileID: 8919148072612862378}
+  m_slot: {fileID: 3702172768017765567, guid: e1e115ff1086bca48a41d25333d24d69, type: 3}
+  m_itemTooltip: {fileID: 4480303310105124825}
   m_buttonUse: {fileID: 1617816747388658312}
   m_textUse: {fileID: 3549974909710021180}
-  m_itemTooltip: {fileID: 4480303310105124825}
+  m_animator: {fileID: -2462395955604248724}
   m_audioSource: {fileID: 6370921323969452742}
   m_toggleClip: {fileID: 8300000, guid: 9f15734b291578a43932779f932264b2, type: 3}
   m_slotSelectedClip: {fileID: 8300000, guid: 5c62937253145624488f0befb44985b4, type: 3}

@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class Unlockable : MonoBehaviour
 {
-    [SerializeField] private Animator m_animator;
+    [Header("General")]
     [SerializeField] private bool m_isUnlocked = false;
+    
+    [Header("Animation")]
+    [SerializeField] private Animator m_animator;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip m_openGateClip;
+
     public bool IsUnlocked => m_isUnlocked;
     [HideInInspector] public bool CanBeUnlocked = false;
 

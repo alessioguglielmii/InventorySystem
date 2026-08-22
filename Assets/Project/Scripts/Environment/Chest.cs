@@ -3,24 +3,29 @@ using UnityEngine.InputSystem;
 
 public class Chest : MonoBehaviour
 {
+    [Header("Break")]
     [SerializeField] private int m_endurance;
     [SerializeField] private GameObject m_breakEffect;
+
+    [Header("Item")]
     [SerializeField] private ItemPickup m_inventoryItem;
 
+    [Header("Animation")]
+    [SerializeField] private Animator m_animator;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip m_chestHit;
     [SerializeField] private AudioClip m_chestBreak;
 
-    private Animator _animator;
-
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        m_animator = GetComponent<Animator>();
     }
 
-    public void DamageChest(int _hitPower)
+    public void DamageChest(int hitPower)
     {
-        m_endurance -= _hitPower;
+        m_endurance -= hitPower;
 
         if (m_endurance <= 0)
         {
@@ -28,9 +33,9 @@ public class Chest : MonoBehaviour
         }
         else
         {
-            if (_animator != null)
+            if (m_animator != null)
             {
-                _animator.SetTrigger("Hit");
+                m_animator.SetTrigger("Hit");
 
                 if (m_audioSource != null && m_chestHit != null)
                 {
@@ -71,10 +76,10 @@ public class Chest : MonoBehaviour
 
         if (m_inventoryItem != null)
         {
-            Vector3 _itemPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.5f, gameObject.transform.position.z);
+            Vector3 itemPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.5f, gameObject.transform.position.z);
 
             GameObject inventoryItem = Instantiate(m_inventoryItem.gameObject);
-            inventoryItem.transform.position = _itemPosition;
+            inventoryItem.transform.position = itemPosition;
 
         }
 

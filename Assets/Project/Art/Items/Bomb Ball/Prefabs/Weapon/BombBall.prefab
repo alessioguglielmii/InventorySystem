@@ -178,7 +178,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 5
-  MaxDistance: 30
+  MaxDistance: 60
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -269,5 +269,4 @@ MonoBehaviour:
   m_explosionEffect: {fileID: 5481530993414605263, guid: 7a12b40fb78f3694ea3ba5830db032b4, type: 3}
   m_audioSource: {fileID: -3069157134524132123}
   m_explosionClip: {fileID: 8300000, guid: aee0096db160a9a449f94fb4f6bd448e, type: 3}
-  isThrown: 0
   bombSocket: {fileID: 0}

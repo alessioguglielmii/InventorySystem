@@ -7,23 +7,37 @@ public class CharacterMovement : MonoBehaviour
 {
     private const float MIN_MOVE_SPEED = 0.1f;
 
+    [Header("Measurement")]
     [SerializeField] private float m_walkSpeed;
     [SerializeField] private float m_runSpeed;
     [SerializeField] private float m_acceleration;
     [SerializeField] private float m_rotationSmoothTime = 0.15f;
+
+    [Header("Controller")]
     [SerializeField] private CharacterController m_characterController;
-    [SerializeField] private Animator m_animator;
+
+    [Header("Camera")]
     [SerializeField] private Transform m_cameraPivot;
-    [SerializeField] private float m_rotationSpeed;
-    [SerializeField] private GameObject m_weaponMesh;
+
+    [Header("Invisibility")]
     [SerializeField] private float m_invisibilityTime;
+
+    [Header("Item")]
     [SerializeField] private float m_coneAngle = 60.0f;
 
+    [Header("Weapon")]
+    [SerializeField] private GameObject m_weaponMesh;
+
+    [Header("Bomb")]
     [SerializeField] private Transform m_bombSocket;
     [SerializeField] private GameObject m_bombObject;
     [SerializeField] private float m_bombForce = 30.0f;
     [SerializeField] private float m_bombUpwardForce = 0.01f;
 
+    [Header("Animation")]
+    [SerializeField] private Animator m_animator;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip[] m_footspepsClips;
     [SerializeField] private AudioClip[] m_swordClips;
@@ -40,7 +54,6 @@ public class CharacterMovement : MonoBehaviour
     private float _rotationVelocity;
 
     private bool _attackOpen;
-    private bool _canPickUp = false;
     private ItemPickup _itemPickUp;
 
     private Unlockable _unlockable;
@@ -112,9 +125,7 @@ public class CharacterMovement : MonoBehaviour
         UpdateMovementInput();
         OrientCharacterToCamera();
         UpdateAnimator();
-
         ManageVisibility();
-        ManageGrab();
 
         _canDoAction = _canMove && !_isAttacking && !_isGrabbing && !_isThrowing;
     }
@@ -169,7 +180,12 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        if (_itemPickUp == null || !_canPickUp)
+        if (_itemPickUp == null)
+        {
+            return;
+        }
+
+        if (!IsTargetInFront(_itemPickUp.transform))
         {
             return;
         }
@@ -258,8 +274,7 @@ public class CharacterMovement : MonoBehaviour
     {
         if (other.CompareTag("Inventory Item"))
         {
-            _canPickUp = false;
-            _itemPickUp = null;
+           _itemPickUp = null;
         }
 
         if (other.CompareTag("Unlockable"))
@@ -328,14 +343,6 @@ public class CharacterMovement : MonoBehaviour
     public void OnGrabEnded()
     {
         _isGrabbing = false;
-    }
-
-    private void ManageGrab()
-    {
-        if (_itemPickUp != null)
-        {
-            _canPickUp = IsTargetInFront(_itemPickUp.transform);
-        }
     }
 
     public void OnMoveChanged()

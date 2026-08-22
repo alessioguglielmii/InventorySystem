@@ -583,4 +583,4 @@ MonoBehaviour:
   m_textItemName: {fileID: 7638678544264430308}
   m_textItemQuantity: {fileID: 1438991355675675879}
   m_textItemMaxStackSize: {fileID: 3465282210296415236}
-  m_offset: {x: 10, y: 10}
+  m_offset: {x: -2, y: -2}

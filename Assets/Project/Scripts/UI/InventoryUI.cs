@@ -6,20 +6,31 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
+    [Header("Playable Character")]
     [SerializeField] private Inventory m_inventory;
     [SerializeField] private CharacterMovement m_characterMovement;
     [SerializeField] private CharacterCamera m_characterCamera;
-    [SerializeField] private InventorySlotUI m_prefabSlot;
-    [SerializeField] private Transform m_trContainer;
-    [SerializeField] private Animator m_animator;
+
+    [Header("Slots")]
+    [SerializeField] private Transform m_container;
+    [SerializeField] private InventorySlotUI m_slot;
+
+    [Header("UI")]
+    [SerializeField] private ItemTooltipUI m_itemTooltip;
     [SerializeField] private Button m_buttonUse;
     [SerializeField] private TMP_Text m_textUse;
-    [SerializeField] private ItemTooltipUI m_itemTooltip;
+
+    [Header("Animation")]
+    [SerializeField] private Animator m_animator;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource m_audioSource;
     [SerializeField] private AudioClip m_toggleClip;
     [SerializeField] private AudioClip m_slotSelectedClip;
     [SerializeField] private AudioClip m_buttonUsePressedSuccessClip;
     [SerializeField] private AudioClip m_buttonUsePressedFailClip;
+
+    [Header("Library")]
     [SerializeField] private ColorPalette m_colorPalette;
 
     [HideInInspector] public bool isDragging = false;
@@ -38,12 +49,12 @@ public class InventoryUI : MonoBehaviour
            return;
         }
 
-        if (m_prefabSlot == null)
+        if (m_slot == null)
         {
            return;
         }
 
-        if (m_trContainer == null)
+        if (m_container == null)
         {
            return;
         }
@@ -107,11 +118,11 @@ public class InventoryUI : MonoBehaviour
 
     private void CreateSlots()
     {
-        for (int nIndex = 0; nIndex < m_inventory.Capacity; nIndex++)
+        for (int index = 0; index < m_inventory.Capacity; index++)
         {
-            InventorySlotUI slotUI = Instantiate(m_prefabSlot, m_trContainer);
+            InventorySlotUI slotUI = Instantiate(m_slot, m_container);
 
-            slotUI.Initialize(m_inventory, nIndex);
+            slotUI.Initialize(m_inventory, index);
 
             _listSlots.Add(slotUI);
         }
@@ -121,11 +132,11 @@ public class InventoryUI : MonoBehaviour
     {
         IReadOnlyList<InventorySlot> listInventorySlots = m_inventory.Slots;
 
-        for (int nIndex = 0; nIndex < _listSlots.Count; nIndex++)
+        for (int index = 0; index < _listSlots.Count; index++)
         {
-            InventorySlot inventorySlot = listInventorySlots[nIndex];
+            InventorySlot inventorySlot = listInventorySlots[index];
 
-            _listSlots[nIndex].SetItem(inventorySlot.Item);
+            _listSlots[index].SetItem(inventorySlot.Item);
         }
     }
 
@@ -146,16 +157,16 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public void SelectSlot(int nSlotIndex, bool moved)
+    public void SelectSlot(int slotIndex, bool moved)
     {
-        if (nSlotIndex < 0 || nSlotIndex >= m_inventory.Capacity)
+        if (slotIndex < 0 || slotIndex >= m_inventory.Capacity)
         {
             return;
         }
 
-        InventorySlot invSlot = m_inventory.Slots[nSlotIndex];
+        InventorySlot inventorySlot = m_inventory.Slots[slotIndex];
 
-        if (invSlot.IsEmpty)
+        if (inventorySlot.IsEmpty)
         {
             DeselectSlot();
             return;
@@ -166,7 +177,7 @@ public class InventoryUI : MonoBehaviour
             _listSlots[_selectedSlotIndex].SetSelected(false, moved);
         }
 
-        if (_selectedSlotIndex >= 0 && _selectedSlotIndex == nSlotIndex)
+        if (_selectedSlotIndex >= 0 && _selectedSlotIndex == slotIndex)
         {
             DeselectSlot();
 
@@ -175,13 +186,13 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        _selectedSlotIndex = nSlotIndex;
+        _selectedSlotIndex = slotIndex;
 
         _listSlots[_selectedSlotIndex].SetSelected(true, moved);
 
         if (m_buttonUse != null && m_textUse != null)
         {
-            bool bCanUse = invSlot.Item.Data.Effect != null;
+            bool bCanUse = inventorySlot.Item.Data.Effect != null;
 
             m_buttonUse.gameObject.GetComponent<Image>().enabled = bCanUse;
             m_textUse.gameObject.GetComponent<TextMeshProUGUI>().enabled = bCanUse;
@@ -211,21 +222,21 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        InventorySlot invSlot = m_inventory.Slots[_selectedSlotIndex];
+        InventorySlot inventorySlot = m_inventory.Slots[_selectedSlotIndex];
 
-        if (invSlot.IsEmpty)
+        if (inventorySlot.IsEmpty)
         {
             DeselectSlot();
             return;
         }
 
-        GameObject goTarget = GetItemTarget(invSlot.Item.Data);
+        GameObject target = GetItemTarget(inventorySlot.Item.Data);
 
-        bool bUsed = m_inventory.UseItem(_selectedSlotIndex, goTarget);
+        bool bUsed = m_inventory.UseItem(_selectedSlotIndex, target);
 
         if (bUsed)
         {
-            if (invSlot.Item == null)
+            if (inventorySlot.Item == null)
             {
                 DeselectSlot();
             }

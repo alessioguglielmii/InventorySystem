@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private int m_nCapacity = 12;
+    [SerializeField] private int m_capacity = 12;
 
     private readonly List<InventorySlot> m_listSlots = new();
 
     public IReadOnlyList<InventorySlot> Slots => m_listSlots;
-    public int Capacity => m_nCapacity;
+    public int Capacity => m_capacity;
 
     public event Action OnInventoryChanged;
     public event Action<int, int> OnInventorySlotMoved;
@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
     {
         m_listSlots.Clear();
 
-        for (int nIndex = 0; nIndex < m_nCapacity; nIndex++)
+        for (int index = 0; index < m_capacity; index++)
         {
             m_listSlots.Add(new InventorySlot());
         }
@@ -66,8 +66,7 @@ public class Inventory : MonoBehaviour
                 continue;
             }
 
-            int availableSpace = dataItem.MaxStackSize -
-                inventoryItem.Quantity;
+            int availableSpace = dataItem.MaxStackSize - inventoryItem.Quantity;
 
             if (availableSpace <= 0)
             {
@@ -147,9 +146,9 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        for (int nIndex = 0; nIndex < m_listSlots.Count; nIndex++)
+        for (int index = 0; index < m_listSlots.Count; index++)
         {
-            InventorySlot inventorySlot = m_listSlots[nIndex];
+            InventorySlot inventorySlot = m_listSlots[index];
 
             if (!inventorySlot.IsEmpty)
             {
@@ -174,14 +173,14 @@ public class Inventory : MonoBehaviour
         return remainingQuantity < quantity;
     }
 
-    public bool RemoveItem(int nSlotIndex, int nQuantity = 1)
+    public bool RemoveItem(int slotIndex, int quantity = 1)
     {
-        if (!IsValidSlot(nSlotIndex) || nQuantity <= 0)
+        if (!IsValidSlot(slotIndex) || quantity <= 0)
         {
             return false;
         }
 
-        InventorySlot inventorySlot = m_listSlots[nSlotIndex];
+        InventorySlot inventorySlot = m_listSlots[slotIndex];
 
         if (inventorySlot.IsEmpty)
         {
@@ -190,10 +189,10 @@ public class Inventory : MonoBehaviour
 
         InventoryItem inventoryItem = inventorySlot.Item;
 
-        if (nQuantity > inventoryItem.Quantity)
+        if (quantity > inventoryItem.Quantity)
             return false;
 
-        inventoryItem.RemoveQuantity(nQuantity);
+        inventoryItem.RemoveQuantity(quantity);
 
         if (inventoryItem.Quantity <= 0)
         {
@@ -217,21 +216,21 @@ public class Inventory : MonoBehaviour
             return false;
         }
 
-        InventorySlot invSourceSlot = m_listSlots[sourceSlotIndex];
+        InventorySlot inventorySourceSlot = m_listSlots[sourceSlotIndex];
 
-        InventorySlot invTargetSlot = m_listSlots[targetSlotIndex];
+        InventorySlot inventoryTargetSlot = m_listSlots[targetSlotIndex];
 
-        if (invSourceSlot.IsEmpty)
+        if (inventorySourceSlot.IsEmpty)
         {
             return false;
         }
 
-        if (invTargetSlot.IsEmpty)
+        if (inventoryTargetSlot.IsEmpty)
         {
-            InventoryItem inventoryItem = invSourceSlot.Item;
+            InventoryItem inventoryItem = inventorySourceSlot.Item;
 
-            invTargetSlot.SetItem(inventoryItem);
-            invSourceSlot.Clear();
+            inventoryTargetSlot.SetItem(inventoryItem);
+            inventorySourceSlot.Clear();
 
             OnInventoryChanged?.Invoke();
             OnInventorySlotMoved?.Invoke(sourceSlotIndex, targetSlotIndex);
@@ -239,27 +238,27 @@ public class Inventory : MonoBehaviour
             return true;
         }
 
-        InventoryItem invSourceItem = invSourceSlot.Item;
+        InventoryItem inventorySourceItem = inventorySourceSlot.Item;
 
-        InventoryItem invTargetItem = invTargetSlot.Item;
+        InventoryItem inventoryTargetItem = inventoryTargetSlot.Item;
 
-        if (invSourceItem.Data == invTargetItem.Data)
+        if (inventorySourceItem.Data == inventoryTargetItem.Data)
         {
-            int nAvailableSpace = invTargetItem.GetAvailableSpace();
+            int availableSpace = inventoryTargetItem.GetAvailableSpace();
 
-            if (nAvailableSpace <= 0)
+            if (availableSpace <= 0)
             {
                 return false;
             }
 
-            int amountToMove = Mathf.Min(invSourceItem.Quantity, nAvailableSpace);
+            int amountToMove = Mathf.Min(inventorySourceItem.Quantity, availableSpace);
 
-            invTargetItem.AddQuantity(amountToMove);
-            invSourceItem.RemoveQuantity(amountToMove);
+            inventoryTargetItem.AddQuantity(amountToMove);
+            inventorySourceItem.RemoveQuantity(amountToMove);
 
-            if (invSourceItem.Quantity <= 0)
+            if (inventorySourceItem.Quantity <= 0)
             {
-                invSourceSlot.Clear();
+                inventorySourceSlot.Clear();
             }
 
             OnInventoryChanged?.Invoke();
@@ -268,10 +267,10 @@ public class Inventory : MonoBehaviour
             return true;
         }
 
-        InventoryItem tempItem = invSourceSlot.Item;
+        InventoryItem tempItem = inventorySourceSlot.Item;
 
-        invSourceSlot.SetItem(invTargetSlot.Item);
-        invTargetSlot.SetItem(tempItem);
+        inventorySourceSlot.SetItem(inventoryTargetSlot.Item);
+        inventoryTargetSlot.SetItem(tempItem);
 
         OnInventoryChanged?.Invoke();
         OnInventorySlotMoved?.Invoke(sourceSlotIndex, targetSlotIndex);
@@ -279,44 +278,44 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool IsValidSlot(int nSlotIndex)
+    private bool IsValidSlot(int slotIndex)
     {
-        return nSlotIndex >= 0 && nSlotIndex < m_listSlots.Count;
+        return slotIndex >= 0 && slotIndex < m_listSlots.Count;
     }
 
-    public bool UseItem(int nSlotIndex, GameObject goTarget)
+    public bool UseItem(int slotIndex, GameObject target)
     {
-        if (!IsValidSlot(nSlotIndex))
+        if (!IsValidSlot(slotIndex))
         {
             return false;
         }
 
-        InventorySlot invSlot = m_listSlots[nSlotIndex];
+        InventorySlot inventorySlot = m_listSlots[slotIndex];
 
-        if (invSlot.IsEmpty)
+        if (inventorySlot.IsEmpty)
         {
             return false;
         }
             
-        InventoryItem invItem = invSlot.Item;
+        InventoryItem inventoryItem = inventorySlot.Item;
 
-        if (invItem.Data.Effect == null)
+        if (inventoryItem.Data.Effect == null)
         {
             return false;
         }
 
-        bool bEffectApplied = invItem.Data.Effect.Apply(goTarget);
+        bool effectApplied = inventoryItem.Data.Effect.Apply(target);
 
-        if (!bEffectApplied)
+        if (!effectApplied)
         {
             return false;
         }
 
-        invItem.RemoveQuantity(1);
+        inventoryItem.RemoveQuantity(1);
 
-        if (invItem.Quantity <= 0)
+        if (inventoryItem.Quantity <= 0)
         {
-            invSlot.Clear();
+            inventorySlot.Clear();
         }
 
         OnInventoryChanged?.Invoke();

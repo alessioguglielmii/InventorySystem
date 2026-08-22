@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
+    [Header("Item")]
     [SerializeField] private ItemData m_dataItem;
 
+    [Header("Effect")]
     [SerializeField] private float m_floatingHeight = 0.25f;
     [SerializeField] private float m_floatingSpeed = 1.5f;
     [SerializeField] private float m_rotationSpeed = 60.0f;

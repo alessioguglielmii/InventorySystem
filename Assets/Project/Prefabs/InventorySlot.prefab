@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventorySlotUI
   m_imageIcon: {fileID: 4422643283332233148}
   m_textQuantity: {fileID: 7874570371277752890}
-  m_goSelection: {fileID: 5205851790847343318}
+  m_selection: {fileID: 5205851790847343318}
   m_colorPalette: {fileID: 11400000, guid: 68f1faf4c0c1b70438367c9fa3ba2e44, type: 2}
 --- !u!114 &7055159816935444792
 MonoBehaviour:

@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private InventorySlotUI m_slotUI;
     private Canvas m_canvas;
-
-    private GameObject m_goDragObject;
-    private RectTransform m_trDragObject;
+    private InventorySlotUI m_slotUI;
+    private GameObject m_dragObject;
+    private RectTransform m_transformDragObject;
 
     private void Awake()
     {
@@ -39,9 +38,9 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
 
         CreateDragObject();
 
-        if (m_goDragObject != null)
+        if (m_dragObject != null)
         {
-            m_trDragObject.position = eventData.position;
+            m_transformDragObject.position = eventData.position;
         }
 
 
@@ -49,12 +48,12 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (m_trDragObject == null)
+        if (m_transformDragObject == null)
         {
             return;
         }
 
-        m_trDragObject.position = eventData.position;
+        m_transformDragObject.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -87,11 +86,11 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
 
         InventorySlotUI targetSlotUI = m_slotUI;
 
-        int nSourceSlotIndex = sourceSlotUI.GetSlotIndex();
+        int sourceSlotIndex = sourceSlotUI.GetSlotIndex();
 
-        int nTargetSlotIndex = targetSlotUI.GetSlotIndex();
+        int targetSlotIndex = targetSlotUI.GetSlotIndex();
 
-        if (nSourceSlotIndex == nTargetSlotIndex)
+        if (sourceSlotIndex == targetSlotIndex)
         {
             return;
         }
@@ -103,40 +102,40 @@ public class InventorySlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragH
             return;
         }
 
-        inventory.MoveItem(nSourceSlotIndex, nTargetSlotIndex);
+        inventory.MoveItem(sourceSlotIndex, targetSlotIndex);
     }
 
     private void CreateDragObject()
     {
-        Image imgSourceIcon = m_slotUI.GetIcon();
+        Image imageSourceIcon = m_slotUI.GetIcon();
 
-        if (imgSourceIcon == null || imgSourceIcon.sprite == null)
+        if (imageSourceIcon == null || imageSourceIcon.sprite == null)
         {
             return;
         }
 
-        m_goDragObject = new GameObject("DragIcon");
+        m_dragObject = new GameObject("DragIcon");
 
-        m_goDragObject.transform.SetParent(m_canvas.transform, false);
+        m_dragObject.transform.SetParent(m_canvas.transform, false);
 
-        m_trDragObject = m_goDragObject.AddComponent<RectTransform>();
+        m_transformDragObject = m_dragObject.AddComponent<RectTransform>();
 
-        Image imgDragIcon = m_goDragObject.AddComponent<Image>();
+        Image imgageDragIcon = m_dragObject.AddComponent<Image>();
 
-        imgDragIcon.sprite = imgSourceIcon.sprite;
-        imgDragIcon.raycastTarget = false;
+        imgageDragIcon.sprite = imageSourceIcon.sprite;
+        imgageDragIcon.raycastTarget = false;
 
-        m_trDragObject.sizeDelta = m_slotUI.GetIcon().rectTransform.rect.size;
+        m_transformDragObject.sizeDelta = m_slotUI.GetIcon().rectTransform.rect.size;
     }
 
     private void DestroyDragObject()
     {
-        if (m_goDragObject != null)
+        if (m_dragObject != null)
         {
-            Destroy(m_goDragObject);
+            Destroy(m_dragObject);
 
-            m_goDragObject = null;
-            m_trDragObject = null;
+            m_dragObject = null;
+            m_transformDragObject = null;
         }
     }
 

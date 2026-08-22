@@ -3,15 +3,23 @@ using UnityEngine.InputSystem;
 
 public class CharacterCamera : MonoBehaviour
 {
-
+    [Header("Playable Character")]
     [SerializeField] private Transform m_target;
+
+    [Header("Camera")]
     [SerializeField] private Transform m_elevation;
     [SerializeField] private Transform m_cameraPoint;
     [SerializeField] private Vector3 m_offset;
+
+    [Header("Input")]
     [SerializeField] private float m_horizontalSpeed;
     [SerializeField] private float m_verticalSpeed;
     [SerializeField] private bool m_invertMouse;
+
+    [Header("Layers")]
     [SerializeField] private LayerMask m_collisionMask;
+
+    [Header("Measurement")]
     [SerializeField] private float m_desiredArmLenght = 2.0f;
     [SerializeField] private float m_minVerticalAngle = -60.0f;
     [SerializeField] private float m_maxVerticalAngle = 45.0f;
